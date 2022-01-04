@@ -561,12 +561,12 @@ Introduction to Hybrid Trackers
 
 .. admonition:: What are hybrid trackers for?
 
-   - The purpose of Hybrid trackers is to to address two essential needs, **custom key special entities split**, and **remote Splunk deployment monitoring**
+   - The purpose of Hybrid trackers is to address two essential needs, **custom key special entities split**, and **remote Splunk deployment monitoring**
    - **custom key special entities** is to be used when you have special requirements in addition with the default index/sourcetype data source concept, then you can rely on any additional key field (indexed or search time extracted) and create hybrid trackers without affecting the general data sources behaviour
    - For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a **subscription_id** field, and get a single entity per index / sourcetype / Cloud tenant (represented by its subscription_id)
    - Another example, you could create an hybrid tracker to create entities based on a **company** fields which describes subsidiaries in your data sets, generating entities per index / sourcetype / company
    - Finally, **remote Splunk deployment monitoring** is a magic feature of TrackMe which allows to do all of these, index/sourcetype entities or with a custom key, but with any remote Splunk deployment configured as an account and using a bearer token for the authentication
-   - In short, you can transparently and easily monitor data from remote Splunk deployment, just as if these were local data sets, with all trackMe features and massive scalability and efficiently!
+   - In short, you can transparently and easily monitor data from remote Splunk deployments, just as if these were local data sets, with all trackMe features and massive scalability and efficiently!
 
 Hybrid trackers for local data sets with a custom key
 -----------------------------------------------------
@@ -806,7 +806,7 @@ Introduction to Elastic sources
    - The Elastic sources feature provides a builtin workflow to create virtual data sources based on any constraints and any Splunk language
    - This extends TrackMe builtin features to allow dealing with any use case that the default data source concept does not cover by design
    - Elastic Sources can be based on ``tstats``, ``raw``, ``from (datamodel and lookup)`` and ``mstats`` searches
-   - In addition, Elastic Sources can be executed over a ``rest`` remote query which allows tracking data that the search head(s) hosting TrackMe cannot access otherwise (such as a lookup that is only available to a Search Head Cluster while you run TrackMe on a monitoring utility search head)
+   - In addition, Elastic Sources can be executed over a remote Splunk deployment using the ``splunkremotesearch`` command which allows tracking data that the search head(s) hosting TrackMe cannot access otherwise (such as a lookup that is only available to a Search Head Cluster while you run TrackMe on a monitoring utility search head)
 
 As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
@@ -818,7 +818,11 @@ As we have exposed the main notions of TrackMe data discovery and tracking in :r
 
 .. hint:: 
 
-   The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
+   - The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
+   - Since TrackMe 2.0, you can as well create **hybrid trackers** for the nearly same purposes with advantages over Elastic Sources (hybrid trackers can only address tstats and raw searches)
+   - Unlike Elastic Sources, Hybrid trackers allow you to perform the discovery of many entities based on a given logic but from a single operation and automatically, saving computes and operations
+   - If you have many entities to be handled, such as a logic based on a subscription_id for a Cloud provider, use hybrid trackers rather than Elastic Sources
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
 
 **The concept of "Elastic Sources" is proper to TrackMe, and is linked to the complete level of flexibility the feature provides you to address any kind of use cases you might need to deal with.**
 
@@ -853,6 +857,11 @@ The following screen appears:
 
 Elastic source example 1: source Metadata
 -----------------------------------------
+
+.. hint::
+
+   - Since TrackMe 2.0, this use case example is much better covered by hybrid trackers, and left for the purposes of the documentation
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
 
 **Let's take our first example, assuming we are indexing the following events:**
 
@@ -895,6 +904,11 @@ Elastic Sources is the TrackMe answer which allows you to extend the default fea
 Elastic source example 2: custom indexed fields
 -----------------------------------------------
 
+.. hint::
+
+   - Since TrackMe 2.0, this use case example is much better covered by hybrid trackers, and left for the purposes of the documentation
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
+
 **Let's extend a bit more the first example, and this time in addition with the region we have a company notion.**
 
 At indexing time, two custom indexed fields are created representing the "region" and the "company".
@@ -916,7 +930,7 @@ This example of excellence allows our virtual customer to work at scale with per
 
 *Note the usage of "::" rather than "=" which indicates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
 
-Indeed, it is clear enough that the default data source feature does not me with the answer I need for this use case:
+Indeed, the default data source feature does fill the requirements we need for this use case:
 
 .. image:: img/first_steps/img032.png
    :alt: img/first_steps/img032
@@ -942,13 +956,11 @@ Elastic source example 3: tracking lookups update and number of records
 
 It is a very common and powerful practice to generate and maintain lookups in Splunk for numbers of purposes, which can be file based lookups (CSV files) or KVstore based lookups.
 
-Starting with TrackMe 1.2.28, it is possible to define an Elastic Source and monitor if the lookup is being updated as expected.
-
 A common caveheat with lookups is that their update is driven by Splunk searches, there are plenty of reasons why a lookup could stop being populated and maintained, such as scheduling issues, permissions, related knowledge objects updates, lack or changes in the data, and many more.
 
 The purpose of this example is to provide a builtin and effiscient way of tracking Splunk lookup updates at scale in the easy way, and get alerted if an update issue is detected in the lookup according to the policies defined in TrackMe.
 
-*Let's consider the simplistic following example, the lookup acme_assets_cmdb contains our ACME assets and is updated every day, we record in the field "lookupLastUpdated" the date and time of the execution of the Lookup gen report in Splunk. (in epoch time format)*
+*Let's consider the simplistic following example, the lookup acme_assets_cmdb contains our ACME assets and is updated every day, we record in the field "lastupdate" the date and time of the execution of the Lookup gen report in Splunk. (in epoch time format)*
 
 .. image:: img/first_steps/img-lookup-tracking1.png
    :alt: img/first_steps/img-lookup-tracking1
@@ -976,80 +988,70 @@ A Lookup based Elastic Source acts transparently just as any other data source, 
 - delays KPIs: how often shall the lookup be updated, which allows you to monitor that your update process (reports, etc) remains valid and operational
 - volume outliers: to automatically be alerted when the number of records is abnormal, and easily detects critical failures in your lookup update process
 
-Elastic source example 4: rest searches
----------------------------------------
+Elastic source example 4: remote searches
+-----------------------------------------
+
+.. hint::
+
+   - Since TrackMe 2.0, hybrid remote trackers can handle remote Splunk deployments monitoring at scale, with much more advantages over Elastic Sources in term of compute and operational costs
+   - This depends on the use cases, hybrid trackers handle tstats and raw searches only (not datamodels or lookups)
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
+
 
 **In some cases, the Splunk instance that hosts the TrackMe application may not not be able to access to a data you wish to monitor.**
-
-**A very simple to understand use case would be:**
 
 - You have a Splunk Search Head Cluster, hosting for example your premium application for ITSI or Enterprise Security
 - In addition, you either use your monitoring console host or a dedicated standalone search head for your Splunk environment monitoring, which is where TrackMe is deployed
 - A lookup exists in the SHC which is the object you need to monitor, this lookup is only available to the SHC members and TrackMe cannot access to its content transparently
 
-Using a ``rest`` command, you can hit a Splunk API search endpoint remotely, and use the builtin Elastic Source feature to monitor and track the lookup just as if it was available directly on the TrackMe search head.
+TrackMe provides a custom command named ``splunkremotesearch`` which performs searches to remote Splunk deployments using the Splunk API and an account you configure:
 
-*In short, on the SHC you can run:*
+**In the Splunk remote deployment account, create a new account, example:**
 
-::
+.. image:: img/hybrid_trackers/remote2.png
+   :alt: img/hybrid_trackers/remote2.png
+   :align: center
+   :width: 1200px
 
-   | inputlookup acme_assets_cmdb
+**Account creation nodes:**
 
-*On the TrackMe Splunk instance, we will use a search looking like:*
+- The account name is important as it will be part of the name of each entity to be created for the remote deployment, in the format: ``remote:|account=<name>|index:sourcetype``
+- The URl is https enforced, and should include the port number of the Splunk API, traditionally your URL would look like: ``https://mysplunk.mydomain.com:8089``
+- The URL can either be an IP address or ideally a FQDN, if you are running a Search Head Cluster, then the URL would ideally refer to the VIP or load balancer FQDN
+- The bearer token is to be configured on the remote Splunk Search Head(s), and should be linked to a Splunk user account with enough privileges to access the indexes you need
+- The application namespace is search and reporting by default, however you can choose a different application context if needed
 
-::
-
-   | rest splunk_server_group="dmc_searchheadclustergroup_shc1" /servicesNS/admin/search/search/jobs/export search="| from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, \"%s\") | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \"none\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"rest:from:lookup:example\", data_index=\"pseudo_index\", data_sourcetype=\"lookup:acme_assets_cmdb\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen" output_mode="csv"
-
-*Notes and technical details:*
-
-- See https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches for more information about running searches over rest
-- See https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest for more information about the rest search command
-- ``rest`` based searches support all forms of searches supported by Elastic Sources: ``tstats``, ``raw``, ``from:datamodel``, ``from:lookup``, ``mstats`` 
-- Search Heads you wish to target need to be configured as distributed search peers in Splunk, same requirement as for the Splunk Monitoring Console host (MC, previously named DMC)
-- Most of the calculation part is executed on the target search head size, TrackMe will not attempt to retrieve the raw data first before performing the calculation for obvious performance gain purposes
-- You can target a search head explicity using the ``splunk_server`` argument, or you can target a group of search heads (such as your SHC) using the ``splunk_server_group`` argument
-- When targeting a group of search heads, the query is executed on every search that is matched by the splunk_server_group, therefore you should limit using a target group to very effiscient and low cost searches such as a from lookup for example
-- TrackMe in anycase will only consider the first result from the rest command (so only one search head answer during the rest execution, assuming search heads from the same group have the same data access), and will discard other search head replies
-- The search needs to be properly performing, and should complete in a acceptable time window (use timeout argument which defaults to 60 seconds)
-- Each result from the rest command, during the tracker execution or within the UI, passes through a Python based custom command to parse the CSV structure resulting from the rest command, to finally create the Splunk events during the search time execution
-- Except for ``| from lookup:`` rest searches, other types of searches automatically append the configured earliest and latest as arguments to the rest command (earliest_time, latest_time)
-- Earliest and Latest arguments are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
-- Additional parameters to the rest command can be added within the first pipe of the search constraint during the Elastic Source creation (such as timeout, count etc)
-
-.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
-
-**Examples for each type of search:**
+**Examples for each type of search which you will enter within the Elastic Search UI:**
 
 *tstats over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+   account="LAB" | index=* sourcetype=pan:traffic
 
 *raw search over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+   account="LAB" | index=* sourcetype=pan:traffic
 
 *from datamodel over rest:*
 
 ::
 
-   splunk_server="my_search_head" | datamodel:"Authentication" action=*
+   account="LAB" | datamodel:"Authentication" action=*
 
 *from lookup over rest:*
 
 ::
 
-   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   account="LAB" | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
 *mstats over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* metric_name=docker*
+   account="LAB" | index=* metric_name=docker*
 
 As a conclusion, using the rest based searches features successfully completes the Elastic Sources level of features, such that every single use case can be handled in TrackMe, whenever the Splunk instance cam access or not to the data you need to track!
 
@@ -1195,13 +1197,13 @@ Litteraly, we are going to use the following SPL search to achieve our target:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
-If our lookupLastUpdated would have been in a human readable format, we could have used the stptime function to convert it into an epoch time, for example:
+If our lastupdate would have been in a human readable format, we could have used the stptime function to convert it into an epoch time, for example:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strptime(lookupLastUpdated, "%d/%m/%Y %H:%M:%S")
+   | from lookup:acme_assets_cmdb | eval _time=strptime(lastupdate, "%d/%m/%Y %H:%M:%S")
 
 *Applied to TrackMe in the Elastic Sources UI creation:*
 
@@ -1231,34 +1233,42 @@ When TrackMe detects that the data source is a based on a lookup, the statistics
 Elastic source example 4: creation
 ----------------------------------
 
-As explained in the example 4 description, we can use a rest based search to monitor any data that is not available to the search head host TrackMe, let's consider the example a lookup hosted on a different search head.
+As explained in the example 4 description, we can run remote searches to monitor any data that is not available to the search head host TrackMe, let's consider the example a lookup hosted on a different search head.
 
 On the search head that owns the lookup, we can use the following query:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
-Using a rest search, we will achieve the same job but this time remotely via a rest call to a search endpoint of the Splunk API using the rest command, the Elastic Source search syntax will be the following:
+Using the embedded ``splunkremotesearch`` and a remote Splunk deployment you have configured, we will achieve the same job but this time remotely, the Elastic Source search syntax will be the following:
 
 ::
 
-   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
-
-The first pipe needs to contain the arguments passed to the rest command, the only mandatory argument is either ``splunk_server`` to target a unique Splunk instance, or ``splunk_server_group`` to target a group of search heads.
-As well, any additional agrument can be given to the rest command by ading these in the first pipe of the search constraint. (timeout, count, etc)
-
-.. tip:: 
-
-   - The Splunk server name needs to be between double quotes, ex: splunk_server="my_search_head"
-   - In this example of a lookup, the knowledge objects needs to be shared properly such that it is available to be accessed via the rest API
+   account="name_of_the_account" | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
 .. image:: img/first_steps/img-rest-elastic1.png
    :alt: img/first_steps/img-rest-elastic1
    :align: center
    :width: 1200px
 
-.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
+Underneath, what TrackMe does is a ``splunkremotesearch`` similar to: (with additional logics automatically generated by TrackMe)
+
+::
+
+   | splunkremotesearch account=LAB search="| from lookup:acme_cmdb_lookup | eval _time=strftime(lastupdate, \"%s\")" earliest="-4h" latest="+4h"
+
+.. image:: img/first_steps/img-rest-elastic1-bis.png
+   :alt: img/first_steps/img-rest-elastic1-bis
+   :align: center
+   :width: 1200px
+
+You can add the new Elastic Source, and immediately run the tracker: (shared or dedicated)
+
+.. image:: img/first_steps/img-rest-elastic1-created.png
+   :alt: img/first_steps/img-rest-elastic1-created
+   :align: center
+   :width: 1200px
 
 Once created, the new data source appears in the UI automatically, the following example shows the behaviour with a lookup that is updated every 30 minutes:
 
@@ -1298,7 +1308,27 @@ When the Elastic Source shared tracker runs:
 
 ``TrackMe - Elastic sources shared tracker``
 
-It calls a special saved search ``| savedsearch runSPL`` which expects in argument any number of SPL searches to be performed.
+TrackMe calls a custom command named ``trackmeelasticexecutor``, this custom command loads the SPL logic from the KVstore collection, and runs the searches sequentially using the Splunk Python SDK.
+
+Logs from the execution are available in:
+
+::
+
+   index=_internal sourcetype=trackme:custom_commands:trackmeelasticexecutor
+
+Especially, we can notice for each single Elastic Source that the search is logged as well as its execution run time:
+
+.. image:: img/first_steps/img-elastic-shared-executor1.png
+   :alt: img/first_steps/img-elastic-shared-executor1.png
+   :align: center
+   :width: 1200px
+
+At the end of the Elastic Shared execution process, we can a total run time metric including how many Elastic Sources were performed:
+
+.. image:: img/first_steps/img-elastic-shared-executor2.png
+   :alt: img/first_steps/img-elastic-shared-executor2.png
+   :align: center
+   :width: 1200px
 
 The tracker loads each record stored in the collection, and uses different evaluations to compose the final SPL search for each record.
 
