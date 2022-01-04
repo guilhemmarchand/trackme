@@ -632,7 +632,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                         "`comment(\"#### rename index and sourcetype ####\")`\n" +\
                         "| rename index as data_index, sourcetype as data_sourcetype\n" +\
                         "`comment(\"#### create the data_name value ####\")`\n" +\
-                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|rawkey:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
+                        "| eval data_name=\"remoteraw:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|rawkey:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
 
             else:
 
@@ -653,7 +653,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                         "`comment(\"#### rename index and sourcetype ####\")`\n" +\
                         "| rename index as data_index, sourcetype as data_sourcetype\n" +\
                         "`comment(\"#### create the data_name value ####\")`\n" +\
-                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype"
+                        "| eval data_name=\"remoteraw:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype"
 
             # create the macro
             try:

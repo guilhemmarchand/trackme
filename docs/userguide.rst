@@ -752,9 +752,9 @@ Creating the hybrid remote tracker
 
 *remote entities naming conventions:*
 
-- Every remote entity uses a naming convention as follows: ``remote:|account=<name>|index:sourcetype``
+- Every remote entity uses a naming convention as follows: ``remote:|account=<name>|index:sourcetype`` for tstats based tracker, ``remoteraw:|account=<name>|index:sourcetype`` for raw based tracker
 - If you a tstats based custom key: ``remote:|account=<name>|index:sourcetype|key:<custom_key_fieldname>|<custom_key_fieldvalue>``
-- If you a raw based custom key: ``remote:|account=<name>|index:sourcetype|rawkey:<custom_key_fieldname>|<custom_key_fieldvalue>``
+- If you a raw based custom key: ``remoteraw:|account=<name>|index:sourcetype|rawkey:<custom_key_fieldname>|<custom_key_fieldvalue>``
 
 **Finally, click on "Create a new hybrid tracker" to perform the tracker creation effectively:**
 

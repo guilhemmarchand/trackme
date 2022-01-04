@@ -5862,7 +5862,7 @@ require([
             if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
 
                 // detect if remote
-                if (/^remote:/i.test(tk_data_name)) {
+                if (/^(remote|remoteraw):/i.test(tk_data_name)) {
 
                     // extract the account name from the data_name
                     regex_account_matches = tk_data_name.match(/\|account:([^\|]+)\|.*/);
@@ -5969,23 +5969,47 @@ require([
                     // standard mode in remote
                     else {
 
-                        tk_data_source_overview_root_search =
-                        "| splunkremotesearch account=\"" +
-                        accountName +
-                        '\" search="' +
-                        "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\\\"" +
-                        tk_data_index +
-                        '\\" sourcetype=\\"' +
-                        tk_data_sourcetype +
-                        '\\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
-                        ' earliest="' +
-                        tk_earliest +
-                        '"' +
-                        ' latest="' +
-                        tk_latest +
-                        '"' +
-                        " | spath";
-                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+                        // tstats mode
+                        if (/^(remote):/i.test(tk_data_name)) {
+
+                            tk_data_source_overview_root_search =
+                            "| splunkremotesearch account=\"" +
+                            accountName +
+                            '\" search="' +
+                            "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\\\"" +
+                            tk_data_index +
+                            '\\" sourcetype=\\"' +
+                            tk_data_sourcetype +
+                            '\\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+                            ' earliest="' +
+                            tk_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_latest +
+                            '"' +
+                            " | spath";
+                            setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                        // raw mode
+                        } else if (/^(remoteraw):/i.test(tk_data_name)) {
+
+                            tk_data_source_overview_root_search =
+                            "| splunkremotesearch account=\"" +
+                            accountName +
+                            '\" search="' +
+                            "search " +
+                            'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' +
+                            ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
+                            ' earliest="' +
+                            tk_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_latest +
+                            '"' +
+                            " | spath";
+                            setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                        }
 
                         // define the raw events search
                         tk_data_source_raw_search =
@@ -6587,7 +6611,7 @@ require([
             // Honour elastic sources
             var search_data_source;
 
-            if (/^remote:/i.test(tk_data_name)) {
+            if (/^(remote|remoteraw):/i.test(tk_data_name)) {
                 var search_data_source = 'search' + tk_data_source_raw_search
             }
 
@@ -25520,7 +25544,7 @@ require([
                     "`comment(\"#### rename index and sourcetype ####\")`\n" +
                     "| rename index as data_index, sourcetype as data_sourcetype\n" +
                     "`comment(\"#### create the data_name value ####\")`\n" +
-                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
+                    "| eval data_name=\"remoteraw:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
                     "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
                     "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
                     "| `trackme_hybrid_tracker_simulation`";
@@ -25541,7 +25565,7 @@ require([
                     "`comment(\"#### rename index and sourcetype ####\")`\n" +
                     "| rename index as data_index, sourcetype as data_sourcetype\n" +
                     "`comment(\"#### create the data_name value ####\")`\n" +
-                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype" +
+                    "| eval data_name=\"remoteraw:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype" +
                     "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
                     "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
                     "| `trackme_hybrid_tracker_simulation`";
@@ -25953,7 +25977,7 @@ require([
             // Run a normal search that immediately returns the job's SID
             service.search(searchQuery, searchParams, function(err, job) {
 
-                cssloader("Running the dedicated elastic tracker");
+                cssloader("Running the hybrid tracker...");
 
                 // Shall the search fail before we can get properties
                 if (job == null) {
@@ -27230,7 +27254,7 @@ require([
             // Run a normal search that immediately returns the job's SID
             service.search(searchQuery, searchParams, function(err, job) {
 
-                cssloader("Running the dedicated elastic tracker");
+                cssloader("Running the dedicated elastic tracker...");
 
                 // Shall the search fail before we can get properties
                 if (job == null) {
