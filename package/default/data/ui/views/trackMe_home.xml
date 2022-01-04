@@ -157,7 +157,7 @@
 											</li>
 											<li>
 											Another example, you could create an hybrid tracker to create entities based on a 
-												<code style="color: black; font-family: monospace;">company</code> fields which desribes subsidiaries in your data sets, generating entities per 
+												<code style="color: black; font-family: monospace;">company</code> fields which describes subsidiaries in your data sets, generating entities per 
 												<code style="color: black; font-family: monospace;">index / sourcetype / company</code>
 											</li>
 											<li>

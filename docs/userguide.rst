@@ -553,6 +553,248 @@ In some cases, you may want to be alerted when the number of distinct count host
 - "any" (default) which disables any verification against the hosts distinct count number
 - A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes below this value, the data source turns red
 
+Hybrid trackers
+===============
+
+Introduction to Hybrid Trackers
+-------------------------------
+
+.. admonition:: What are hybrid trackers for?
+
+   - The purpose of Hybrid trackers is to to address two essential needs, **custom key special entities split**, and **remote Splunk deployment monitoring**
+   - **custom key special entities** is to be used when you have special requirements in addition with the default index/sourcetype data source concept, then you can rely on any additional key field (indexed or search time extracted) and create hybrid trackers without affecting the general data sources behaviour
+   - For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a **subscription_id** field, and get a single entity per index / sourcetype / Cloud tenant (represented by its subscription_id)
+   - Another example, you could create an hybrid tracker to create entities based on a **company** fields which describes subsidiaries in your data sets, generating entities per index / sourcetype / company
+   - Finally, **remote Splunk deployment monitoring** is a magic feature of TrackMe which allows to do all of these, index/sourcetype entities or with a custom key, but with any remote Splunk deployment configured as an account and using a bearer token for the authentication
+   - In short, you can transparently and easily monitor data from remote Splunk deployment, just as if these were local data sets, with all trackMe features and massive scalability and efficiently!
+
+Hybrid trackers for local data sets with a custom key
+-----------------------------------------------------
+
+**Let's take the followin simple example:**
+
+- On the local Splunk deployment (meaning data that TrackMe can transparenly access to), we have two indexes **firewall and network** which contains data for multiple company: **amer, apac and emea**
+- By default, TrackMe generates two entities (assuming we have one sourcetype per index): **firewall:pan:traffic** and **network:pan:traffic**
+- However, this does not allow us to track each region independently, as all regions are covered in each of the entities
+- Before the hybrid trackers, we could have covered the requirements in two ways: updating the global discovery scheme, or creating an Elastic Source for each couple of index/sourcetype/region
+- Both approaches have inconvenients, in the first case we modify the discovery for all entities which is likely problematic, in the second the approach is not very effiscient and requires many manual actions, and is potentially expensive in term of compute
+
+**By creating an hybrid tracker to address our needs, we get:**
+
+- Entities created and maintained automatically, respecting our custom key transparenly
+- A single schedule report which acts efficiently and saves computing costs in a scalabable way
+- We do not affect the standard entities discovery at any point in time
+- We can create as many hybrid trackers as we need to address our requirements
+
+**Requirements:**
+
+- The custom key can be either an indexed field, or a search time extracted field
+- Ideally, using an indexed field is more effiscient and uses less computes, as it allows TrackMe to use a tstats based hybrid tracker, however, both are supported
+- The custom key needs to be searcheable in TrackMe transparently, using ``field="value"``
+
+Creating our hybrid local tracker with a region custom key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**From the TrackMe main UI, click on the "manage hybrid trackers" button:**
+
+.. image:: img/hybrid_trackers/local1.png
+   :alt: img/hybrid_trackers/local1.png
+   :align: center
+   :width: 1200px
+
+**Click on the "Create a new hybrid local tracker" button from this screen:**
+
+.. image:: img/hybrid_trackers/local2.png
+   :alt: img/hybrid_trackers/local2.png
+   :align: center
+   :width: 1200px
+
+**Fill in the required information, and click on simulate to review the results before creating the tracker:**
+
+.. image:: img/hybrid_trackers/local3.png
+   :alt: img/hybrid_trackers/local3.png
+   :align: center
+   :width: 1200px
+
+*About:*
+
+- ``unique identifier``: A custom identifier of your choice, defines the name of the tracker report automatically
+- ``search mode``: Defines if the tracker relies on a tstats based searches and uses a custom key based on an indexed field, or a standard raw search whichs allows both indexed and search time extracted fields
+- ``root search constraint``: The Splunk root search constraint, depending on the type of search (tstats versus raw), fields need to be available at the indexed time using tstats, search time using a standard raw search
+- ``break by field``: The custom key field
+- ``earliest``: The earliest time quantifier, restricts the search time earliest scope
+- ``latest``: The latest time quantifier, restricts the search time latest scope
+
+*Simulation results:*
+
+- The simulation results shows an overview of the entities discovered at the time of the simulation run
+- It shows the total number of discovered entities, and a sample of the first 10 entities discovered
+
+**Finally, click on "Create a new hybrid tracker" to perform the tracker creation effectively:**
+
+.. image:: img/hybrid_trackers/local4.png
+   :alt: img/hybrid_trackers/local4.png
+   :align: center
+   :width: 1200px
+
+**You can run the tracker immediately:**
+
+.. image:: img/hybrid_trackers/local5.png
+   :alt: img/hybrid_trackers/local5.png
+   :align: center
+   :width: 1200px
+
+**Right after the tracker run, our new entities are visible:**
+
+.. image:: img/hybrid_trackers/local6.png
+   :alt: img/hybrid_trackers/local6.png
+   :align: center
+   :width: 1200px
+
+*depending on the search mode, tstats versus raw:*
+
+- in tstats mode, the new entity is named as ``<index>:<sourcetype>:|key:<custom_key_fieldname>:<custom_key_fieldvalue>``
+- in raw mode, the new entity is named as ``<index>:<sourcetype>:|rawkey:<custom_key_fieldname>:<custom_key_fieldvalue>``
+
+*When opening the entity, TrackMe automatically identities the custom key context, extracts the field name and value to construct all the needed searches:**
+
+.. image:: img/hybrid_trackers/local7.png
+   :alt: img/hybrid_trackers/local7.png
+   :align: center
+   :width: 1200px
+
+**The new scheduled report is a standard report which can be reviewed in Splunk core:**
+
+.. image:: img/hybrid_trackers/local8.png
+   :alt: img/hybrid_trackers/local8.png
+   :align: center
+   :width: 1200px
+
+**What about the out of the box entities?**
+
+The easiest and fastest is to disable the original entities within the UI, these entities will not be visible and considered any longer.
+
+Hybrid trackers for remote Splunk deployment monitoring
+-------------------------------------------------------
+
+**In addition with the data available in our local environment, where TrackMe is hosted, you can monitor one or more remote Splunk deployment using hybrid remote trackers:**
+
+- An **account** gets configured in the configuration UI, which represents the Splunk remote deployment to be monitored
+- This account consists in an identifier for the account, the URL and port of the Splunk API and the bearer token value used for the authentication
+- Finally, am hybrid remote tracker is configured and created, Trackme automatically relies in a custom command named ``splunkremotesearch`` to handle remote data sources transparently
+- When the hybrid tracker runs, a single search is operated to the remote system via the Splunk API, allowing scalabable and efficient searches at the lowest computing costs
+
+**Requirements:**
+
+- The Splunk API on the remote system can be reached, this is compatible with Splunk Enterprise on-premise deployments and as well Splunk Cloud (the API access needs to be requested to Cloud Ops)
+- A bearer token needs to be created on the remote system, the token needs to be linked to a Splunk user account that can access to the data sets effectively
+
+Creating the hybrid remote tracker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**First, we need to setup the Splunk remote deployment account, from the main UI:**
+
+.. image:: img/hybrid_trackers/remote1.png
+   :alt: img/hybrid_trackers/remote1.png
+   :align: center
+   :width: 1200px
+
+**In the Splunk remote deployment account, create a new account, example:**
+
+.. image:: img/hybrid_trackers/remote2.png
+   :alt: img/hybrid_trackers/remote2.png
+   :align: center
+   :width: 1200px
+
+**Account creation nodes:**
+
+- The account name is important as it will be part of the name of each entity to be created for the remote deployment, in the format: ``remote:|account=<name>|index:sourcetype``
+- The URl is https enforced, and should include the port number of the Splunk API, traditionally your URL would look like: ``https://mysplunk.mydomain.com:8089``
+- The URL can either be an IP address or ideally a FQDN, if you are running a Search Head Cluster, then the URL would ideally refer to the VIP or load balancer FQDN
+- The bearer token is to be configured on the remote Splunk Search Head(s), and should be linked to a Splunk user account with enough privileges to access the indexes you need
+- The application namespace is search and reporting by default, however you can choose a different application context if needed
+
+**Click on the "Create a new hybrid local tracker" button from this screen:**
+
+.. hint:: 
+
+   - Hybrid remote trackers can be based on the standard break by field scheme (index/sourcetype), or you can use a custom key to rely on a additional field (index/sourcetype/custom key)
+   - A search constraint is optional, and can be used to scope and restrict easily the data sets on the remote Splunk deployment
+
+.. image:: img/hybrid_trackers/remote3.png
+   :alt: img/hybrid_trackers/remote3.png
+   :align: center
+   :width: 1200px
+
+**Fill in the required information, and click on simulate to review the results before creating the tracker:**
+
+*Example with a constraint restricting indexes, and a standard break by based on index/sourcetype:*
+
+.. image:: img/hybrid_trackers/remote4.png
+   :alt: img/hybrid_trackers/remote4.png
+   :align: center
+   :width: 1200px
+
+*About:*
+
+- ``unique identifier``: A custom identifier of your choice, defines the name of the tracker report automatically
+- ``aacount``: Select the Splunk remote deployment account in the dropdown selector
+- ``search mode``: Defines if the tracker relies on a tstats based searches, or a standard raw search whichs allows both indexed and search time extracted fields
+- ``root search constraint``: Optional, the Splunk root search constraint, depending on the type of search (tstats versus raw), fields need to be available at the indexed time using tstats, search time using a standard raw search
+- ``break by field``: Optional, break with an additional custom key field
+- ``earliest``: The earliest time quantifier, restricts the search time earliest scope
+- ``latest``: The latest time quantifier, restricts the search time latest scope
+
+*Simulation results:*
+
+- The simulation results shows an overview of the entities discovered at the time of the simulation run
+- It shows the total number of discovered entities, and a sample of the first 10 entities discovered
+
+*remote entities naming conventions:*
+
+- Every remote entity uses a naming convention as follows: ``remote:|account=<name>|index:sourcetype``
+- If you a tstats based custom key: ``remote:|account=<name>|index:sourcetype|key:<custom_key_fieldname>|<custom_key_fieldvalue>``
+- If you a raw based custom key: ``remote:|account=<name>|index:sourcetype|rawkey:<custom_key_fieldname>|<custom_key_fieldvalue>``
+
+**Finally, click on "Create a new hybrid tracker" to perform the tracker creation effectively:**
+
+.. image:: img/hybrid_trackers/remote5.png
+   :alt: img/hybrid_trackers/remote5.png
+   :align: center
+   :width: 1200px
+
+**You can run the tracker immediately:**
+
+.. image:: img/hybrid_trackers/remote6.png
+   :alt: img/hybrid_trackers/remote6.png
+   :align: center
+   :width: 1200px
+
+**When opening an entity, TrackMe automatically detects the fact that this entity is a remote entity, and constructs the searches using the splunkremotesearch custom command:**
+
+.. image:: img/hybrid_trackers/remote7.png
+   :alt: img/hybrid_trackers/remote7.png
+   :align: center
+   :width: 1200px
+
+.. image:: img/hybrid_trackers/remote8.png
+   :alt: img/hybrid_trackers/remote8.png
+   :align: center
+   :width: 1200px
+
+*Any failure encountered by the splunkremotesearch command will be logged in the _internal:*
+
+::
+
+   index=_internal sourcetype=trackme:custom_commands:splunkremotesearch
+
+**Finally!**
+
+.. image:: img/hybrid_trackers/remote9.png
+   :alt: img/hybrid_trackers/remote9.png
+   :align: center
+   :width: 1200px
+
 Elastic sources
 ===============
 
