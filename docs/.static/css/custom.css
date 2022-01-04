@@ -12,3 +12,7 @@
 .with-border img {
   border: 1px solid #555;
 }
+
+.wy-side-nav-search {
+  background-color: rgba(13, 18, 22, 0.7) !important;
+}

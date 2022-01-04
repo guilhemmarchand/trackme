@@ -257,7 +257,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'trackme', u'trackme Documentation',
+    (master_doc, 'trackme', u'TrackMe Documentation',
      [author], 1)
 ]
 
@@ -271,8 +271,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'trackme', u'trackme Documentation',
-     author, 'trackme', 'Splunk application data sources availability monitoring.',
+    (master_doc, 'trackme', u'TrackMe Documentation',
+     author, 'trackme', 'Data tracking system for Splunk.',
      'Miscellaneous'),
 ]
 

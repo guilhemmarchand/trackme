@@ -17,7 +17,7 @@ If Splunk search heads are running in Search Head Cluster (SHC), the Splunk appl
 Dependencies
 ============
 
-.. hint:: Since TrackMe 1.2.0, there are several application dependencies
+.. hint:: TrackMe has several application dependencies
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -27,7 +27,7 @@ Dependencies
 Indexes
 =======
 
-.. hint:: Since TrackMe 1.2.0, the application requires the creation of an event index and a metric index
+.. hint:: TrackMe requires the creation of an event index and a metric index
 
 - summary event index defaults to ``trackme_summary``, handled by the macro ``trackme_idx``
 - metric index defaults to ``trackme_metrics``, handled by the macro ``trackme_metrics_idx``
