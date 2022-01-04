@@ -3810,13 +3810,46 @@ require([
         tokenNamespace: "submitted",
     });
 
+    var searchElasticSourcesTestGenSpl = new SearchManager({
+        id: "searchElasticSourcesTestGenSpl",
+        earliest_time: "-5m",
+        cancelOnUnload: true,
+        sample_ratio: null,
+        latest_time: "now",
+        search: '| makeresults | eval data_name="$tk_input_elastic_source_data_name$", search_mode="$form.tk_input_elastic_source_search_type$", search_constraint="$tk_input_elastic_source_search_constraint$", elastic_data_index="$tk_input_elastic_source_elastic_data_index$", elastic_data_sourcetype="$tk_input_elastic_source_elastic_data_sourcetype$" | `trackme_elastic_sources_simulate_genspl("$tk_input_elastic_source_data_name$", "$tk_input_elastic_source_earliest$", "$tk_input_elastic_source_latest$")`',
+        status_buckets: 0,
+        app: utils.getCurrentApp(),
+        auto_cancel: 90,
+        preview: true,
+        tokenDependencies: {
+            depends: "$start_simulation_elastic_sources$",
+        },
+        runWhenTimeIsUndefined: false,
+    }, {
+        tokens: true
+    });
+
+    new SearchEventHandler({
+        managerid: "searchElasticSourcesTestGenSpl",
+        event: "progress",
+        conditions: [{
+            attr: "any",
+            value: "*",
+            actions: [{
+                type: "set",
+                token: "tk_elastic_source_simulation_search",
+                value: "$result.spl$",
+            }, ],
+        }, ],
+    });
+
     var searchElasticSourcesTest = new SearchManager({
         id: "searchElasticSourcesTest",
         earliest_time: "$tk_input_elastic_source_earliest$",
         cancelOnUnload: true,
         sample_ratio: null,
         latest_time: "$tk_input_elastic_source_latest$",
-        search: '| savedsearch runSPL [ | makeresults | eval data_name="$tk_input_elastic_source_data_name$", search_mode="$form.tk_input_elastic_source_search_type$", search_constraint="$tk_input_elastic_source_search_constraint$", elastic_data_index="$tk_input_elastic_source_elastic_data_index$", elastic_data_sourcetype="$tk_input_elastic_source_elastic_data_sourcetype$" | `trackme_elastic_sources_simulate("$tk_input_elastic_source_data_name$", "$tk_input_elastic_source_earliest$", "$tk_input_elastic_source_latest$")`',
+        search: '$tk_elastic_source_simulation_search$ | `trackme_elastic_sources_simulate_get_results("$tk_input_elastic_source_data_name$")`',
         status_buckets: 0,
         app: utils.getCurrentApp(),
         auto_cancel: 90,
@@ -26249,6 +26282,7 @@ require([
             var start_simulation_elastic_sources = "true";
             var success_simulation_elastic_sources = "false";
             setToken("start_simulation_elastic_sources", "true");
+            searchElasticSourcesTestGenSpl.startSearch();
 
             // free the table view
             $("#divElasticSourcesTest").css("display", "inherit");
