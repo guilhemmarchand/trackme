@@ -118,6 +118,75 @@
                         }
                     ],
                     "title": "TrackMe Logging"
+                },
+                {
+                    "name": "components",
+                    "entity": [
+                        {
+                            "type": "singleSelect",
+                            "label": "Data Sources tracking",
+                            "help": "Enable/Disable the Data Sources tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_data_sources",
+                            "required": true
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Data Hosts tracking",
+                            "help": "Enable/Disable the Data Hosts tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_data_hosts",
+                            "required": true
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Metric Hosts tracking",
+                            "help": "Enable/Disable the Metric hosts tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_metric_sources",
+                            "required": true
+                        }
+                    ],
+                    "title": "Components configuration"
                 }
             ],
             "title": "Configuration",
