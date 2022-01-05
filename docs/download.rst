@@ -11,4 +11,4 @@ Splunk base
 GitHub
 ######
 
-- https://github.com/guilhemmarchand/trackme
+- https://github.com/trackme-limited/trackme-for-splunk

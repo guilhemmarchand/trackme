@@ -16,11 +16,13 @@ Monitor Splunk instances forwarding
    :alt: data_hosts.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/splunk_forwarding/metric_hosts.png
    :alt: metric_hosts.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Requirements
 ------------
@@ -56,6 +58,7 @@ TrackMe allow lists and block lists
    :alt: allow_internal.png
    :align: center
    :width: 600px
+   :class: with-border
 
 *For metric hosts, allow the _metrics*
 
@@ -63,6 +66,7 @@ TrackMe allow lists and block lists
    :alt: allow_metrics.png
    :align: center
    :width: 600px
+   :class: with-border
 
 Usage
 -----
@@ -73,11 +77,13 @@ Usage
    :alt: data_host_details.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/splunk_forwarding/metric_host_details.png
    :alt: metric_host_details.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **A green status basically indicates that:**
 
@@ -94,6 +100,7 @@ Data hosts tracking
    :alt: heavyforwarder1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The default behaviour driven by the global host policy implies that as long as the Splunk instance is forwarding data, the host will remain green even if the sources monitored by and as this host runs into troubles, you can on a global basis change the :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for you>` or selectively on a per host basis:
 
@@ -103,6 +110,7 @@ The default behaviour driven by the global host policy implies that as long as t
    :alt: data_hosts_allerting_policy_config.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Per data host policy:*
 
@@ -110,6 +118,7 @@ The default behaviour driven by the global host policy implies that as long as t
    :alt: data_host_per_host_policy.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **When the global policy, or the per host policy, is set to track per sourcetype, the data host will appear in a non green status if at least one sourcetype is red (for example even if Splunk internal is still going through):**
 
@@ -117,6 +126,7 @@ The default behaviour driven by the global host policy implies that as long as t
    :alt: heavyforwarder2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Metric hosts tracking
 ^^^^^^^^^^^^^^^^^^^^^
@@ -127,5 +137,6 @@ Metric hosts tracking
    :alt: metric_host_details2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Congratulations, you have now a builtin, easy and efficient monitoring of your Splunk instances availability, enable and configure alerts up to your preferences the :ref:`Alerts tracking` and the job is done!

@@ -1,4 +1,4 @@
-<form script="trackme:trackMe_api_reference.js" version="1.1">
+<form script="trackme:trackMe_api_reference.js" theme="dark" version="1.1" hideEdit="true">
   <label>TrackMe API Reference</label>
   <description>This dashboard shows the different API resource groups and endpoints available in TrackMe</description>
   <fieldset submitButton="false"></fieldset>
@@ -32,20 +32,24 @@
         <p style="margin-top: 20px; line-height: normal;">
         Using these endpoints allows interracting with TrackMe in a programmatic and automated fashion, providing the capabilities to perform any of the actions you would achieve in the UI, and even more.
         <br />
-        A custom SPL command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: blue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands (all actions are supported: get/post/delete), this makes the API capabilities even more accessible and powerful.
-  
+        A custom SPL command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: dodgerblue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands (all actions are supported: get/post/delete), this makes the API capabilities even more accessible and powerful.
+        <br />
+        The TrackMe API logs are indexed in Splunk automatically and can be <a target="_blank" href="search?q=search%20index%3D_internal%20sourcetype%3Dtrackme%3Arest_api">searched</a> as follows:
+        <code style="font-size: 15px; color: black;">
+          index=_internal sourcetype=trackme:rest_api
+        </code>
         </p>
 
         <h2 style="margin-top: 20px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html">🔗Link to the API Reference documentation in Read The Docs</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html">▶ Link to the API Reference documentation in Read The Docs</a>
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://documenter.getpostman.com/view/7845664/TVt2c3a9#105ff830-5834-4c95-b928-75ab553f5020">🔗Link to the API Reference documentation in Postman format</a>
+          <a target="_blank" href="https://documenter.getpostman.com/view/7845664/TVt2c3a9#105ff830-5834-4c95-b928-75ab553f5020">▶ Link to the API Reference documentation in Postman format</a>
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command">🔗Link to the trackme SPL command documentation</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command">▶ Link to the trackme SPL command documentation</a>
         </h2>
 
         <h2 style="margin-top: 25px; line-height: normal;">trackme API command Syntax:<br />
@@ -171,7 +175,7 @@
       </html>
       <html rejects="$resource_api_tk$ $resource_doc_tk$">
         <h2 style="margin-top: -10px; text-align: center;">
-           🔼 Please click on one entry in the table above to execute the describe action and get the endpoint usage 🔼
+           Please click on one entry in the table above to execute the describe action and get the endpoint usage
         </h2>
       </html>
       <event depends="$resource_api_tk$ $resource_doc_tk$">

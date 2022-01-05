@@ -490,35 +490,42 @@ Finally, the ITSI integration is ready and you can create new services using the
    :alt: itsi_example1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_example2.png
    :alt: itsi_example2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_customer_example1.png
    :alt: itsi_customer_example1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_customer_example2.png
    :alt: itsi_customer_example2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_customer_example3.png
    :alt: itsi_customer_example3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_customer_example4.png
    :alt: itsi_customer_example4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/itsi_customer_example5.png
    :alt: itsi_customer_example5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **TrackMe acts now transparently as a companion of ITSI, you will continue to manage data sources in TrackMe, create Elastic sources, manage states and max lagging values which are reflected naturally in ITSI.**
