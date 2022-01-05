@@ -13,6 +13,11 @@ Version 2.0.0
 - HTML deprecation: migration of TrackMe to a full JS stack extension mode to handle the deprecation of HTML based user interfaces
 - Starting from version 1.3.0, there are no more HTML based UI, all UIs are simple xml based with full JS stack
 - Dark theme: TrackMe moves to a full dark theme based user interface
+- License model changed to TrackMe EULA
+- Introducing the Hybrid Tracker major feature, allowing you to track data based on a custom model, and to track data at scale for remote Splunk deployments
+- Introducing the job executors, which handle all tracking jobs in TrackMe in a controlled and monitored fashion, from the regular OOTB trackers to the Elastic Sources and Data sampling
+- Introducing the TrackMe components management, allowing to enable / disable TrackMe single components (Data Sources tracking, Data Hosts tracking, Metric hosts tracking) in a embedded and application level support way
+- Introducing the hours range monitoring, allowing for each single entity to specify hours ranges when monitoring rules are applied for granular monitoring in addition with the week days monitoring
 - Various bug fixes and UI improvements
 - Long term logic issues handling for data sources and data hosts
 

@@ -78,6 +78,18 @@ class DataSamplingExecutor(GeneratingCommand):
 
         if self:
 
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = self.service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for stanzakey, stanzavalue in stanza.content.items():
+                        if stanzakey == "loglevel":
+                            loglevel = stanzavalue
+            logginglevel = logging.getLevelName(loglevel)
+            log.setLevel(logginglevel)
+
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
 
@@ -175,9 +187,10 @@ class DataSamplingExecutor(GeneratingCommand):
                     oneshotsearch_results = service.jobs.oneshot(search, **kwargs_oneshot)
                     reader = results.ResultsReader(oneshotsearch_results)
 
-                    logging.info("tracker report:\"" + str(self.report) + "\" successfully executed in " + str(time.process_time() - start) + " seconds")
-                    data = {'_time': time.time(), '_raw': "tracker report:\"" + str(self.report) +  "\" successfully executed in " + str(time.process_time() - start) + " seconds" }
-                    yield data
+                    for item in reader:
+                        logging.info("tracker report:\"" + str(self.report) + "\" successfully executed in " + str(time.process_time() - start) + " seconds, results: " + json.dumps(item, indent = 2))
+                        data = {'_time': time.time(), '_raw': "tracker report:\"" + str(self.report) +  "\" successfully executed in " + str(time.process_time() - start) + " seconds" }
+                        yield data
 
                 except Exception as e:
                     logging.error("main search failed with exception: " + str(e))

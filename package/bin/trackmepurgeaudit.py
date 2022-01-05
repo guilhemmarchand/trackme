@@ -54,6 +54,18 @@ class PurgeAuditRecords(GeneratingCommand):
 
         if self:
 
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = self.service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for stanzakey, stanzavalue in stanza.content.items():
+                        if stanzakey == "loglevel":
+                            loglevel = stanzavalue
+            logginglevel = logging.getLevelName(loglevel)
+            log.setLevel(logginglevel)
+
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
 
