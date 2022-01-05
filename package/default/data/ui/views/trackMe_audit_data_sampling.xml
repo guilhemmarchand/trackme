@@ -1,4 +1,4 @@
-<form version="1.1">
+<form version="1.1" theme="dark" hideEdit="true">
   <label>TrackMe - Data sampling and events formats recognition audit</label>
   <fieldset submitButton="false"></fieldset>
   <row>
@@ -153,17 +153,114 @@
     </panel>
   </row>
   <row>
+      <panel>
+          <title>Data sampling tracker run time performance over time (last 24 hours)</title>
+          <chart>
+              <search>
+              <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor
+| timechart avg(run_time) as avg_run_time</query>
+                  <earliest>-24h@m</earliest>
+                  <latest>now</latest>
+              <sampleRatio>1</sampleRatio>
+              </search>
+              <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+              <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+              <option name="charting.axisTitleX.visibility">visible</option>
+              <option name="charting.axisTitleY.visibility">visible</option>
+              <option name="charting.axisTitleY2.visibility">visible</option>
+              <option name="charting.axisX.abbreviation">none</option>
+              <option name="charting.axisX.scale">linear</option>
+              <option name="charting.axisY.abbreviation">none</option>
+              <option name="charting.axisY.scale">linear</option>
+              <option name="charting.axisY2.abbreviation">none</option>
+              <option name="charting.axisY2.enabled">0</option>
+              <option name="charting.axisY2.scale">inherit</option>
+              <option name="charting.chart">line</option>
+              <option name="charting.chart.bubbleMaximumSize">50</option>
+              <option name="charting.chart.bubbleMinimumSize">10</option>
+              <option name="charting.chart.bubbleSizeBy">area</option>
+              <option name="charting.chart.nullValueMode">gaps</option>
+              <option name="charting.chart.showDataLabels">none</option>
+              <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+              <option name="charting.chart.stackMode">default</option>
+              <option name="charting.chart.style">shiny</option>
+              <option name="charting.drilldown">none</option>
+              <option name="charting.layout.splitSeries">0</option>
+              <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+              <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+              <option name="charting.legend.mode">standard</option>
+              <option name="charting.legend.placement">right</option>
+              <option name="charting.lineWidth">2</option>
+              <option name="trellis.enabled">0</option>
+              <option name="trellis.scales.shared">1</option>
+              <option name="trellis.size">medium</option>
+          </chart>
+      </panel>
+  </row>
+  <row>
+      <panel>
+          <title>Data sampling tracker performance summay statistics (last 24 hours)</title>
+          <table>
+              <search>
+              <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor
+| stats avg(run_time) as avg_run_time, perc95(run_time) as perc95_run_time, max(run_time) as max_run_time, latest(run_time) as latest_run_time, sparkline(avg(run_time),) As avg_sparkline
+| foreach avg_run_time perc95_run_time max_run_time latest_run_time [ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 3) ]
+</query>
+                <earliest>-24h@m</earliest>
+                <latest>now</latest>
+              <sampleRatio>1</sampleRatio>
+              </search>
+              <option name="wrap">true</option>
+              <option name="rowNumbers">false</option>
+              <option name="dataOverlayMode">none</option>
+              <option name="drilldown">row</option>
+              <option name="count">10</option>
+              <option name="refresh.display">none</option>
+              <option name="percentagesRow">false</option>
+              <format type="color" field="avg_sparkline">
+                  <colorPalette type="minMidMax" maxColor="#31A35F" minColor="#353535"></colorPalette>
+                  <scale type="minMidMax"></scale>
+              </format>
+          </table>
+      </panel>
+  </row>
+  <row>
+    <panel>
+        <title>TrackMe Data Sampling Mass executor logs</title>
+        <event>
+          <search>
+            <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor</query>
+            <earliest>-4h@m</earliest>
+            <latest>now</latest>
+          </search>
+          <option name="count">10</option>
+          <option name="list.drilldown">none</option>
+          <option name="list.wrap">1</option>
+          <option name="maxLines">5</option>
+          <option name="raw.drilldown">none</option>
+          <option name="rowNumbers">0</option>
+          <option name="table.drilldown">all</option>
+          <option name="table.sortDirection">asc</option>
+          <option name="table.wrap">1</option>
+          <option name="type">raw</option>
+        </event>
+    </panel>
+  </row>
+  <row>
     <panel>
       <table>
         <title>Tracker scheduler execution metrics - this view exposes some key information from the scheduling perspective such maximal number of entities that are to be processed in a single execution</title>
         <search>
-          <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="success" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
-| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, latest(result_count) as last_processed_no_entities by savedsearch_name
+          <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor "data sampling job successfully executed"
+| rex "for\s(?&lt;no_entities&gt;\d*)\sentities"
+| rex "executed\sin\s(?&lt;run_time&gt;[\d*|\.]*)\s"
+| where no_entities&gt;1
+| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, avg(no_entities) as avg_processed_no_entities by _time
 | foreach avg_run_time max_run_time latest_run_time [ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 2) ]
 | appendcols [ | inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | stats count as total_entities ]
 | eval potential_rate_sec=round(latest_run_time/last_processed_no_entities, 2)
 | eval max_accepted_run_time_sec=`trackme_data_sampling_max_allowed_runtime_sec`
-| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0)</query>
+| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0) | filldown total_entities</query>
           <earliest>-4h@m</earliest>
           <latest>now</latest>
         </search>

@@ -1,4 +1,4 @@
-<form version="1.1">
+<form version="1.1" theme="dark" hideEdit="true">
     <label>TrackMe - Internal scheduling audit</label>
     <!-- main search for scheduling cost -->
     <search id="scheduling_mainsearch">
@@ -10,9 +10,9 @@
         <sampleRatio>1</sampleRatio>
     </search>
     <search id="scheduling_table">
-        <query>index=_internal host="*" source=*scheduler.log status="*" AND status!="continued" trackme app="trackme" savedsearch_name="TrackMe - *"
+        <query>index=_internal host="*" source=*scheduler.log status="*" AND status!="continued" trackme app="trackme" (savedsearch_name="TrackMe - *" OR savedsearch_name="trackme_tracker_*")
 | stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, max(_time) AS "last_run (dd/mm/YYYY H:M:S)" by app,savedsearch_name
-| append [ | rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app="trackme" title="TrackMe - *" is_visible=1 | fields eai:acl.app, title, cron_schedule, schedule_window, disabled, next_scheduled_time | sort limit=0 title | rename eai:acl.app as app, title as savedsearch_name ]
+| append [ | rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app="trackme" (title="TrackMe - *" OR title="trackme_tracker_*") is_visible=1 | fields eai:acl.app, title, cron_schedule, schedule_window, disabled, next_scheduled_time | sort limit=0 title | rename eai:acl.app as app, title as savedsearch_name ]
 | stats first(*) as "*" by app, savedsearch_name
 | eval "last_run (dd/mm/YYYY H:M:S)"=strftime('last_run (dd/mm/YYYY H:M:S)', "%d/%m/%Y %H:%M:%S")
 | foreach *_run_time [ eval &lt;&lt;FIELD&gt;&gt;=round('&lt;&lt;FIELD&gt;&gt;', 2) ]
@@ -197,17 +197,111 @@
     </row>
     <row>
         <panel>
+            <title>Trackers run time performance over time</title>
+            <chart>
+                <search>
+                <query>index=_internal sourcetype=trackme:custom_commands:trackmetrackerexecutor
+| timechart limit=0 avg(run_time) as avg_run_time by report</query>
+                    <earliest>$timerange_scheduled.earliest$</earliest>
+                    <latest>$timerange_scheduled.latest$</latest>
+                <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleX.visibility">visible</option>
+                <option name="charting.axisTitleY.visibility">visible</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisX.abbreviation">none</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.abbreviation">none</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.axisY2.abbreviation">none</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart">line</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">default</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">none</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.mode">standard</option>
+                <option name="charting.legend.placement">right</option>
+                <option name="charting.lineWidth">2</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+            </chart>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>Trackers run time performance summay statistics</title>
+            <table>
+                <search>
+                <query>index=_internal sourcetype=trackme:custom_commands:trackmetrackerexecutor
+| stats avg(run_time) as avg_run_time, perc95(run_time) as perc95_run_time, max(run_time) as max_run_time, latest(run_time) as latest_run_time, sparkline(avg(run_time),) As avg_sparkline by report | sort limit=0 report
+| foreach avg_run_time perc95_run_time max_run_time latest_run_time [ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 3) ]
+</query>
+                    <earliest>$timerange_scheduled.earliest$</earliest>
+                    <latest>$timerange_scheduled.latest$</latest>
+                <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="wrap">true</option>
+                <option name="rowNumbers">false</option>
+                <option name="dataOverlayMode">none</option>
+                <option name="drilldown">row</option>
+                <option name="count">10</option>
+                <option name="refresh.display">none</option>
+                <option name="percentagesRow">false</option>
+                <format type="color" field="avg_sparkline">
+                    <colorPalette type="minMidMax" maxColor="#31A35F" minColor="#353535"></colorPalette>
+                    <scale type="minMidMax"></scale>
+                </format>
+            </table>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>TrackMe tracker executor logs</title>
+            <event>
+            <search>
+                <query>index=_internal sourcetype=trackme:custom_commands:trackmetrackerexecutor</query>
+                <earliest>$timerange_scheduled.earliest$</earliest>
+                <latest>$timerange_scheduled.latest$</latest>
+            </search>
+            <option name="count">10</option>
+            <option name="list.drilldown">none</option>
+            <option name="list.wrap">1</option>
+            <option name="maxLines">5</option>
+            <option name="raw.drilldown">none</option>
+            <option name="rowNumbers">0</option>
+            <option name="table.drilldown">all</option>
+            <option name="table.sortDirection">asc</option>
+            <option name="table.wrap">1</option>
+            <option name="type">raw</option>
+            </event>
+        </panel>
+    </row>
+    <row>
+        <panel>
             <title>Trackers - These scheduled reports are responsible for discovering and maintaining data states</title>
             <chart>
                 <search base="scheduling_table">
-                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | fields "report (savedsearch_name)", avg_run_time</query>
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" OR "report (savedsearch_name)"="trackme_tracker_*" | fields "report (savedsearch_name)", avg_run_time</query>
                 </search>
                 <option name="charting.chart">pie</option>
                 <option name="charting.drilldown">all</option>
             </chart>
             <table>
                 <search base="scheduling_table">
-                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" OR "report (savedsearch_name)"="trackme_tracker_*" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
                 </search>
                 <option name="count">100</option>
                 <option name="dataOverlayMode">none</option>

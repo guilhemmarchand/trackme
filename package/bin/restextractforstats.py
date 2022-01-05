@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+
+__author__ = "TrackMe Limited"
+__copyright__ = "Copyright 2021, TrackMe Limited, U.K."
+__credits__ = ["Guilhem Marchand"]
+__license__ = "TrackMe Limited, all rights reserved"
+__version__ = "0.1.0"
+__maintainer__ = "TrackMe Limited, U.K."
+__email__ = "support@trackme-solutions.com"
+__status__ = "DEPRECATED"
+
 import app
 import os,sys
 import csv

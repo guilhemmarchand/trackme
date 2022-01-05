@@ -1,10 +1,26 @@
 Release notes
 #############
 
+Version 2.0.0
+=============
+
+.. hint:: **Splunk 8.x and Python3 support only**
+
+- HTML deprecation: migration of TrackMe to a full JS stack extension mode to handle the deprecation of HTML based user interfaces
+- Dark theme: TrackMe moves to a full dark theme based user interface
+- License model changed to TrackMe EULA
+- Introducing the Hybrid Trackers component and Splunk remote search, allowing you to easily track data based on any number of custom models, and to remotely track data at scale for any number of Splunk remote deployments
+- Introducing the job executors, which handle all tracking jobs in TrackMe in a controlled and monitored fashion, from the regular OOTB trackers to the Elastic Sources and Data sampling
+- Introducing the TrackMe components management, allowing to enable / disable TrackMe single components (Data Sources tracking, Data Hosts tracking, Metric hosts tracking) at the application level in a single click, disabling the component from the UI and its associated search workload
+- Introducing the hours range monitoring, allowing for each single entity to specify hours ranges when monitoring rules are applied for granular monitoring in addition with the week days monitoring
+- Introducing auto-diagnostic, an automated analysis and remediation concept for TrackMe main components configuration
+- Various bug fixes and UI improvements
+- Long term logic issues handling for data sources and data hosts
+
 Version 1.2.58
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -18,7 +34,7 @@ Version 1.2.58
 Version 1.2.57
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -31,7 +47,7 @@ Version 1.2.57
 Version 1.2.56
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -42,7 +58,7 @@ Version 1.2.56
 Version 1.2.55
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -54,7 +70,7 @@ Version 1.2.55
 Version 1.2.54
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -65,7 +81,7 @@ Version 1.2.54
 Version 1.2.53
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
@@ -76,7 +92,7 @@ Version 1.2.53
 Version 1.2.52
 ==============
 
-.. warning:: **Splunk 8.x and Python3 support only**
+.. hint:: **Splunk 8.x and Python3 support only**
 
     - Starting from this release, only Splunk 8.x and Python3 are supported
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x

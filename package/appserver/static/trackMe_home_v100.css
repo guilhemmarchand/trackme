@@ -1,0 +1,319 @@
+
+/* tooltip table */
+a:hover .custom_title_tag {
+    background:black;
+    opacity: 1.0;
+	width: 600px;
+}
+
+.container-trackme-inputs {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.item-trackme-inputs {
+	order: 5;
+	/* default is 0 */
+	margin-top: -10px;
+}
+
+.fieldset {
+	margin-top: -10px !important;
+	margin-bottom: -10px !important;
+}
+
+.custom-btn {
+	float: left;
+	margin-top: 15px;
+}
+
+/* Splunk viz div */
+.view-main {
+	padding: 2px 2px 26px 2px;
+}
+
+/* handle search elements */
+
+.search-elements {
+	display: none !important;
+	position: absolute;
+}
+
+
+/* hide this */
+
+.splunk-choice-input-message {
+	display: none !important;
+}
+
+/* bocklist top panels */
+
+.blocklist-toppanels {
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+
+/* Fix an issue with dark theme */
+
+.dashboard-row .dashboard-panel .panel-footer.show,
+.dashboard-row .dashboard-panel .dashboard-element:hover .panel-footer {
+	background-color: inherit;
+	!important
+}
+
+
+/* Handle label for Splunk inputs */
+
+.splunk-input-label {
+	margin-left: 12px;
+}
+
+
+/* Additional modal sizes */
+
+.modal-big {
+	height: 800px;
+	max-height: 400%;
+	width: 80%;
+	margin-left: -40%;
+}
+
+.modal-guts {
+	/* For Splunk 7.0.x */
+	/* margin-top: 30px; */
+	/* other stuff we already covered */
+	/* cover the modal */
+	position: absolute;
+	width: 90%;
+	min-height: 50px;
+	max-height: 650px;
+	height: 100%;
+	/* spacing as needed */
+	padding: 20px 50px 20px 20px;
+	/* let it scroll */
+	overflow: auto;
+}
+
+
+/* img headers */
+
+.imgheader {
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+
+.imgheader img {
+	float: left;
+	width: 48px;
+	height: 48px;
+}
+
+.imgheader h1 {
+	color: lightslategrey;
+	text-align: left;
+	position: relative;
+	top: 9px;
+	left: 10px;
+}
+
+.imgheader h3 {
+	position: relative;
+	top: 14px;
+	left: -10px;
+}
+
+.imgheader {
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+
+.imgheader36 img {
+	float: left;
+	width: 36px;
+	height: 36px;
+}
+
+.imgheader36 h1 {
+	color: lightslategrey;
+	text-align: left;
+	position: relative;
+	top: 9px;
+	left: 10px;
+}
+
+.imgheader36 h3 {
+	position: relative;
+	top: 8px;
+	left: -10px;
+}
+
+.imgminiheader img {
+	position: relative;
+	top: -4px;
+}
+
+
+/* span titles */
+
+span.title_yellow {
+	background: #ffd700;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_orange {
+	background: #ffb347;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_blue {
+	background: #89cff0;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_green {
+	background: #77dd77;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_red {
+	background: #ff6961;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_grey {
+	background: #808080;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_low_priority {
+	background: #cce5ff;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_medium_priority {
+	background: #7fbfff;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+span.title_high_priority {
+	background: #3298ff;
+	padding: 0.3em 1.5em;
+	font-weight: 600;
+	position: relative;
+	border-radius: 5px;
+	margin-left: 5px;
+	color: darkslategray;
+}
+
+.status_message_orange {
+	background-color: #ffb347;
+	margin: 30px 0;
+	padding: 10px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.status_message_blue {
+	background-color: #A7C7E7;
+	margin: 30px 0;
+	padding: 10px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.status_message_green {
+	background-color: #77dd77;
+	margin: 30px 0;
+	padding: 10px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.status_message_red {
+	background-color: #ff6961;
+	margin: 30px 0;
+	padding: 10px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+.generic_message_blue {
+	background-color: #cfebf9;
+	margin: 30px 0;
+	padding: 10px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+
+/* Timeline viz */
+
+.ccat-green {
+	fill: #77dd77 !important;
+	stroke: #77dd77 !important;
+}
+
+.ccat-red {
+	fill: #ff6961 !important;
+	stroke: #ff6961 !important;
+}
+
+.ccat-blue {
+	fill: #89cff0 !important;
+	stroke: #89cff0 !important;
+}
+
+.ccat-orange {
+	fill: #ffb347 !important;
+	stroke: #ffb347 !important;
+}
+
+.ccat-yellow {
+	fill: #ffd700 !important;
+	stroke: #ffd700 !important;
+}
+
+.ccat-grey {
+	fill: #808080 !important;
+	stroke: #808080 !important;
+}

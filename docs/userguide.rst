@@ -13,6 +13,7 @@ Access TrackMe main interface
    :alt: img/first_steps/img001
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. tip:: **If the UI is empty and no data sources are showing up:**
 
@@ -28,6 +29,7 @@ Main navigation tabs
    :alt: img/first_steps/img001_tabs
    :align: center
    :width: 1000px
+   :class: with-border
 
 - ``DATA SOURCES TRACKING`` shows the tracking of data sources, by default a data source is a breakdown of your data on a per ``index + ":" + sourcetype``
 - ``DATA HOSTS TRACKING`` shows data discovered for each ``host sending events`` to Splunk
@@ -48,6 +50,7 @@ Data Source main screen
    :alt: img/first_steps/img002
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. warning:: If you do not see the full window (called modal window), review your screen resolution settings, TrackMe requires a minimal high enough resolution when navigating through the app*
 
@@ -59,6 +62,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
    :alt: img/first_steps/img003
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Let's review these information:**
 
@@ -67,6 +71,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 .. image:: img/first_steps/img004.png
    :alt: img/first_steps/img004
    :align: center
+   :class: with-border
 
 - ``data_index`` is the name of the Splunk index where the data resides
 - ``data_sourcetype`` is the Splunk sourcetype for this entity
@@ -78,6 +83,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 .. image:: img/first_steps/img005.png
    :alt: img/first_steps/img005
    :align: center
+   :class: with-border
 
 - ``data_last_ingest`` is the last date time TrackMe has detected data ingested by Splunk for the data source, this can differ from the very last event available in the data source (more after)
 - ``data_max_lag_allowed`` is the value in seconds that TrackMe will use as the main information to define the status of the data source, by default it is defined to 1 hour (3600 seconds)
@@ -89,6 +95,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 .. image:: img/first_steps/img006.png
    :alt: img/first_steps/img006
    :align: center
+   :class: with-border
 
 - ``latest_flip_time`` is the latest date time a change was detected in the state of the entity
 - ``latest_flip_states`` is the state to which it moved at that time
@@ -101,6 +108,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
    :alt: img/first_steps/img007
    :align: center
    :width: 1200px
+   :class: with-border
 
 - ``Identity documentation card`` is a feature that allows you create an information card (hyperlink and a text note), and link that card to any number of data sources.
 - By default, no identity card is defined which is exposed by this message, if an identity card is created and linked to the entity, the message will turn into a link that once clicked exposes in a new window the context of the card
@@ -117,6 +125,7 @@ Data source screen tabs
    :alt: img/first_steps/img008
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Starting by describing the tabs available in this window:**
 
@@ -124,6 +133,7 @@ Data source screen tabs
    :alt: img/first_steps/img009
    :align: center
    :width: 1200px
+   :class: with-border
 
 - ``Overview data source`` is the current view that exposes the main information and metrics for this entity
 - ``Outlier detection overview`` exposes the event outliers detection chart
@@ -142,6 +152,7 @@ Overview data source tab
    :alt: img/first_steps/img010
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This screen exposes several single forms with the following calculations:**
 
@@ -159,6 +170,7 @@ Outlier detection overview
    :alt: img/first_steps/img011
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This screen exposes the events outliers detection results over time, the purpose of the outliers detection is to provide advanced capabilities to detect when the number of events produced in the scope of an entity goes below or above a certain level, which level gets automatically defined upon the historical behaviour of the data.**
 
@@ -192,6 +204,7 @@ Outlier detection configuration
    :alt: img/first_steps/img012
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This is the screen provided to configure the outliers detection for a given entity, which exposes a simulation of the results over time, allowing you to train your settings before they are applied.**
 
@@ -210,6 +223,7 @@ Outlier detection configuration
    :alt: img/first_steps/img013
    :align: center
    :width: 1200px
+   :class: with-border
 
 - ``time period for outliers detection`` defines the time frame TrackMe will be looking at for the outliers calculations (lower/upper bands etc) which is using the recorded metrics every time the short term trackers ran
 - ``span for outliers rendering`` is an additional setting which impact the graphical rendering within the outliers screen, but not the results of the outliers detection itself
@@ -225,6 +239,7 @@ Data sampling
    :alt: img/first_steps/img_data_sampling001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The data sampling message can be:
 
@@ -239,6 +254,7 @@ The button **Manage data sampling** provides summary information about the data 
    :alt: img/first_steps/img_data_sampling002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Quick button access:**
 
@@ -259,6 +275,7 @@ Data parsing quality
    :alt: img/first_steps/img014
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Note: for data sources, the scope of indexing time parsing issues happens on the sourcetype level from a Splunk point of view, this means that if there are any parsing issues found for this sourcetype, this can be linked to this data source but as well with any other data source that looks at the same sourcetype.*
 
@@ -273,17 +290,13 @@ Lagging performances
    :alt: img/first_steps/img015
    :align: center
    :width: 1200px
+   :class: with-border
 
 **The following mcatalog search can be used to expose the metrics stored in the metric store and the dimensions:**
 
 ::
 
    | mcatalog values(metric_name) values(_dims) where index=* metric_name=trackme.*
-
-.. image:: img/first_steps/img016.png
-   :alt: img/first_steps/img016
-   :align: center
-   :width: 1200px
 
 **The main dimensions are:**
 
@@ -299,6 +312,7 @@ Status flipping
    :alt: img/first_steps/img017
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Key information:**
 
@@ -317,6 +331,7 @@ Status message
    :alt: img/first_steps/img018
    :align: center
    :width: 1200px
+   :class: with-border
 
 *example of a red state due to lagging conditions not met:*
 
@@ -324,48 +339,7 @@ Status message
    :alt: img/first_steps/img019
    :align: center
    :width: 1200px
-
-*example of a red state due to outliers detection:*
-
-.. image:: img/first_steps/img020.png
-   :alt: img/first_steps/img020
-   :align: center
-   :width: 1200px
-
-*example of a red state due to data sampling anomalies detected:*
-
-.. image:: img/first_steps/img020_data_sampling.png
-   :alt: img/first_steps/img020_data_sampling
-   :align: center
-   :width: 1200px
-
-*example of a red state due to hosts dcount threshold not reached:*
-
-.. image:: img/first_steps/img020_data_sampling_dcount.png
-   :alt: img/first_steps/img020_data_sampling_dcount
-   :align: center
-   :width: 1200px
-
-*example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
-
-.. image:: img/first_steps/img020_blue.png
-   :alt: img/first_steps/img020_blue
-   :align: center
-   :width: 1200px
-
-*example of an orange state due to data indexed in the future:*
-
-.. image:: img/first_steps/img020_orange.png
-   :alt: img/first_steps/img020_orange
-   :align: center
-   :width: 1200px
-
-*In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
-
-.. image:: img/first_steps/timeline.png
-   :alt: img/first_steps/timeline
-   :align: center
-   :width: 1200px
+   :class: with-border
 
 Audit changes
 ^^^^^^^^^^^^^
@@ -376,6 +350,7 @@ Audit changes
    :alt: img/first_steps/img021
    :align: center
    :width: 1200px
+   :class: with-border
 
 See :ref:`Auditing changes` for more details about the feature.
 
@@ -388,6 +363,7 @@ Action buttons
    :alt: img/first_steps/img022
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Actions:**
 
@@ -401,7 +377,7 @@ Action buttons
 
 See :ref:`Alerts tracking` for more details about the acknowledgment feature and alert related configurations
 
-See :ref:`Data source unified update` for more details about the unified update UI for data sources
+See :ref:`Data source main settings update` for more details about the unified update UI for data sources
 
 Data Hosts tracking and features
 --------------------------------
@@ -441,6 +417,7 @@ See :ref:`Enrichment tags` for more details om this feature
    :alt: img/first_steps/data_host_reset
    :align: center
    :width: 1200px
+   :class: with-border
 
 Metric Hosts tracking and features
 ----------------------------------
@@ -480,6 +457,7 @@ Particularities of metric hosts monitoring
    :alt: img/first_steps/metric_host_reset
    :align: center
    :width: 1200px
+   :class: with-border
 
 Triggering this action will remove the current knowledge of metric categories for this entity only and trigger a fresh discovery without losing additional settings like the priority.
 
@@ -487,46 +465,50 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-Unified update interface
-========================
+Entities main setting update screens
+====================================
 
-**For each type of tracking, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
+**For each type of entities, a main settings screen update is available by clicking on the modify button when looking at a specific entity:**
 
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
    :align: center
    :width: 800px
+   :class: with-border
 
 These interfaces are called unified as their main purpose is to provide a central place in the UI where the modification of the main key parameters would be achieved.
 
 In this screens, you will define the priority level assignment, modify the lagging policy, manage logical groups, etc.
 
-Data source unified update
---------------------------
+Data source main settings update
+--------------------------------
 
 .. image:: img/first_steps/img024.png
    :alt: img/first_steps/img024
    :align: center
    :width: 1200px
+   :class: with-border
 
-Data hosts unified update
--------------------------
+Data hosts main settings update
+-------------------------------
 
 .. image:: img/first_steps/img025.png
    :alt: img/first_steps/img025
    :align: center
    :width: 1200px
+   :class: with-border
 
-Metric hosts unified update
----------------------------
+Metric hosts main settings update
+---------------------------------
 
 .. image:: img/first_steps/img026.png
    :alt: img/first_steps/img026
    :align: center
    :width: 1200px
+   :class: with-border
 
-Unified update interface features
----------------------------------
+Main settings update interface features
+---------------------------------------
 
 **Lag monitoring policy:**
 
@@ -559,7 +541,15 @@ See :ref:`Priority management` for more details about this feature
 
 Week days monitoring allows using specific rules for data sources and data hosts regarding the day of the week, by default monitoring rules are always applied, therefore using week days rules allow influencing the ``red`` state depending on the current day of the week. (which would switch to ``orange`` accordingly)
 
-See :ref:`Week days monitoring` for more details about this feature
+**Hours ranges monitoring:**
+
+Similarly to the week days monitoring, you can specify for each entity the hours ranges of the day when the monitoring condition apply.
+
+In a nutshell, this means that you can specify which periods of the day a given entity can switch to red, and therefore be included in your alerting workflow.
+
+If the current hour range is not included in the monitoring rules, the entity would turn orange rather than red.
+
+See :ref:`Hours ranges monitoring` for more details about this feature
 
 **Monitoring level:**
 
@@ -592,6 +582,265 @@ In some cases, you may want to be alerted when the number of distinct count host
 - "any" (default) which disables any verification against the hosts distinct count number
 - A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes below this value, the data source turns red
 
+Hybrid trackers
+===============
+
+Introduction to Hybrid Trackers
+-------------------------------
+
+.. admonition:: What are hybrid trackers for?
+
+   - The purpose of Hybrid trackers is to address two essential needs, **custom key special entities split**, and **remote Splunk deployment monitoring**
+   - **custom key special entities** is to be used when you have special requirements in addition with the default index/sourcetype data source concept, then you can rely on any additional key field (indexed or search time extracted) and create hybrid trackers without affecting the general data sources behaviour
+   - For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a **subscription_id** field, and get a single entity per index / sourcetype / Cloud tenant (represented by its subscription_id)
+   - Another example, you could create an hybrid tracker to create entities based on a **company** fields which describes subsidiaries in your data sets, generating entities per index / sourcetype / company
+   - Finally, **remote Splunk deployment monitoring** is a magic feature of TrackMe which allows to do all of these, index/sourcetype entities or with a custom key, but with any remote Splunk deployment configured as an account and using a bearer token for the authentication
+   - In short, you can transparently and easily monitor data from remote Splunk deployments, just as if these were local data sets, with all trackMe features and massive scalability and efficiently!
+
+Hybrid trackers for local data sets with a custom key
+-----------------------------------------------------
+
+**Let's take the followin simple example:**
+
+- On the local Splunk deployment (meaning data that TrackMe can transparenly access to), we have two indexes **firewall and network** which contains data for multiple company: **amer, apac and emea**
+- By default, TrackMe generates two entities (assuming we have one sourcetype per index): **firewall:pan:traffic** and **network:pan:traffic**
+- However, this does not allow us to track each region independently, as all regions are covered in each of the entities
+- Before the hybrid trackers, we could have covered the requirements in two ways: updating the global discovery scheme, or creating an Elastic Source for each couple of index/sourcetype/region
+- Both approaches have inconvenients, in the first case we modify the discovery for all entities which is likely problematic, in the second the approach is not very effiscient and requires many manual actions, and is potentially expensive in term of compute
+
+**By creating an hybrid tracker to address our needs, we get:**
+
+- Entities created and maintained automatically, respecting our custom key transparenly
+- A single schedule report which acts efficiently and saves computing costs in a scalabable way
+- We do not affect the standard entities discovery at any point in time
+- We can create as many hybrid trackers as we need to address our requirements
+
+**Requirements:**
+
+- The custom key can be either an indexed field, or a search time extracted field
+- Ideally, using an indexed field is more effiscient and uses less computes, as it allows TrackMe to use a tstats based hybrid tracker, however, both are supported
+- The custom key needs to be searcheable in TrackMe transparently, using ``field="value"``
+
+Creating our hybrid local tracker with a region custom key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**From the TrackMe main UI, click on the "manage hybrid trackers" button:**
+
+.. image:: img/hybrid_trackers/local1.png
+   :alt: img/hybrid_trackers/local1.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**Click on the "Create a new hybrid local tracker" button from this screen:**
+
+.. image:: img/hybrid_trackers/local2.png
+   :alt: img/hybrid_trackers/local2.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**Fill in the required information, and click on simulate to review the results before creating the tracker:**
+
+.. image:: img/hybrid_trackers/local3.png
+   :alt: img/hybrid_trackers/local3.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+*About:*
+
+- ``unique identifier``: A custom identifier of your choice, defines the name of the tracker report automatically
+- ``search mode``: Defines if the tracker relies on a tstats based searches and uses a custom key based on an indexed field, or a standard raw search whichs allows both indexed and search time extracted fields
+- ``root search constraint``: The Splunk root search constraint, depending on the type of search (tstats versus raw), fields need to be available at the indexed time using tstats, search time using a standard raw search
+- ``break by field``: The custom key field
+- ``earliest``: The earliest time quantifier, restricts the search time earliest scope
+- ``latest``: The latest time quantifier, restricts the search time latest scope
+
+*Simulation results:*
+
+- The simulation results shows an overview of the entities discovered at the time of the simulation run
+- It shows the total number of discovered entities, and a sample of the first 10 entities discovered
+
+**Finally, click on "Create a new hybrid tracker" to perform the tracker creation effectively:**
+
+.. image:: img/hybrid_trackers/local4.png
+   :alt: img/hybrid_trackers/local4.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**You can run the tracker immediately:**
+
+.. image:: img/hybrid_trackers/local5.png
+   :alt: img/hybrid_trackers/local5.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**Right after the tracker run, our new entities are visible:**
+
+.. image:: img/hybrid_trackers/local6.png
+   :alt: img/hybrid_trackers/local6.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+*depending on the search mode, tstats versus raw:*
+
+- in tstats mode, the new entity is named as ``<index>:<sourcetype>:|key:<custom_key_fieldname>:<custom_key_fieldvalue>``
+- in raw mode, the new entity is named as ``<index>:<sourcetype>:|rawkey:<custom_key_fieldname>:<custom_key_fieldvalue>``
+
+*When opening the entity, TrackMe automatically identities the custom key context, extracts the field name and value to construct all the needed searches:**
+
+.. image:: img/hybrid_trackers/local7.png
+   :alt: img/hybrid_trackers/local7.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**The new scheduled report is a standard report which can be reviewed in Splunk core:**
+
+.. image:: img/hybrid_trackers/local8.png
+   :alt: img/hybrid_trackers/local8.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**What about the out of the box entities?**
+
+The easiest and fastest is to disable the original entities within the UI, these entities will not be visible and considered any longer.
+
+Hybrid trackers for remote Splunk deployment monitoring
+-------------------------------------------------------
+
+**In addition with the data available in our local environment, where TrackMe is hosted, you can monitor one or more remote Splunk deployment using hybrid remote trackers:**
+
+- An **account** gets configured in the configuration UI, which represents the Splunk remote deployment to be monitored
+- This account consists in an identifier for the account, the URL and port of the Splunk API and the bearer token value used for the authentication
+- Finally, am hybrid remote tracker is configured and created, Trackme automatically relies in a custom command named ``splunkremotesearch`` to handle remote data sources transparently
+- When the hybrid tracker runs, a single search is operated to the remote system via the Splunk API, allowing scalabable and efficient searches at the lowest computing costs
+
+**Requirements:**
+
+- The Splunk API on the remote system can be reached, this is compatible with Splunk Enterprise on-premise deployments and as well Splunk Cloud (the API access needs to be requested to Cloud Ops)
+- A bearer token needs to be created on the remote system, the token needs to be linked to a Splunk user account that can access to the data sets effectively
+
+Creating the hybrid remote tracker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**First, we need to setup the Splunk remote deployment account, from the main UI:**
+
+.. image:: img/hybrid_trackers/remote1.png
+   :alt: img/hybrid_trackers/remote1.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**In the Splunk remote deployment account, create a new account, example:**
+
+.. image:: img/hybrid_trackers/remote2.png
+   :alt: img/hybrid_trackers/remote2.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**Account creation nodes:**
+
+- The account name is important as it will be part of the name of each entity to be created for the remote deployment, in the format: ``remote:|account=<name>|index:sourcetype``
+- The URl is https enforced, and should include the port number of the Splunk API, traditionally your URL would look like: ``https://mysplunk.mydomain.com:8089``
+- The URL can either be an IP address or ideally a FQDN, if you are running a Search Head Cluster, then the URL would ideally refer to the VIP or load balancer FQDN
+- The bearer token is to be configured on the remote Splunk Search Head(s), and should be linked to a Splunk user account with enough privileges to access the indexes you need
+- The application namespace is search and reporting by default, however you can choose a different application context if needed
+
+**Click on the "Create a new hybrid local tracker" button from this screen:**
+
+.. hint:: 
+
+   - Hybrid remote trackers can be based on the standard break by field scheme (index/sourcetype), or you can use a custom key to rely on a additional field (index/sourcetype/custom key)
+   - A search constraint is optional, and can be used to scope and restrict easily the data sets on the remote Splunk deployment
+
+.. image:: img/hybrid_trackers/remote3.png
+   :alt: img/hybrid_trackers/remote3.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**Fill in the required information, and click on simulate to review the results before creating the tracker:**
+
+*Example with a constraint restricting indexes, and a standard break by based on index/sourcetype:*
+
+.. image:: img/hybrid_trackers/remote4.png
+   :alt: img/hybrid_trackers/remote4.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+*About:*
+
+- ``unique identifier``: A custom identifier of your choice, defines the name of the tracker report automatically
+- ``aacount``: Select the Splunk remote deployment account in the dropdown selector
+- ``search mode``: Defines if the tracker relies on a tstats based searches, or a standard raw search whichs allows both indexed and search time extracted fields
+- ``root search constraint``: Optional, the Splunk root search constraint, depending on the type of search (tstats versus raw), fields need to be available at the indexed time using tstats, search time using a standard raw search
+- ``break by field``: Optional, break with an additional custom key field
+- ``earliest``: The earliest time quantifier, restricts the search time earliest scope
+- ``latest``: The latest time quantifier, restricts the search time latest scope
+
+*Simulation results:*
+
+- The simulation results shows an overview of the entities discovered at the time of the simulation run
+- It shows the total number of discovered entities, and a sample of the first 10 entities discovered
+
+*remote entities naming conventions:*
+
+- Every remote entity uses a naming convention as follows: ``remote:|account=<name>|index:sourcetype`` for tstats based tracker, ``remoteraw:|account=<name>|index:sourcetype`` for raw based tracker
+- If you a tstats based custom key: ``remote:|account=<name>|index:sourcetype|key:<custom_key_fieldname>|<custom_key_fieldvalue>``
+- If you a raw based custom key: ``remoteraw:|account=<name>|index:sourcetype|rawkey:<custom_key_fieldname>|<custom_key_fieldvalue>``
+
+**Finally, click on "Create a new hybrid tracker" to perform the tracker creation effectively:**
+
+.. image:: img/hybrid_trackers/remote5.png
+   :alt: img/hybrid_trackers/remote5.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**You can run the tracker immediately:**
+
+.. image:: img/hybrid_trackers/remote6.png
+   :alt: img/hybrid_trackers/remote6.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**When opening an entity, TrackMe automatically detects the fact that this entity is a remote entity, and constructs the searches using the splunkremotesearch custom command:**
+
+.. image:: img/hybrid_trackers/remote7.png
+   :alt: img/hybrid_trackers/remote7.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+.. image:: img/hybrid_trackers/remote8.png
+   :alt: img/hybrid_trackers/remote8.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+*Any failure encountered by the splunkremotesearch command will be logged in the _internal:*
+
+::
+
+   index=_internal sourcetype=trackme:custom_commands:splunkremotesearch
+
+**Finally!**
+
+.. image:: img/hybrid_trackers/remote9.png
+   :alt: img/hybrid_trackers/remote9.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
 Elastic sources
 ===============
 
@@ -603,7 +852,7 @@ Introduction to Elastic sources
    - The Elastic sources feature provides a builtin workflow to create virtual data sources based on any constraints and any Splunk language
    - This extends TrackMe builtin features to allow dealing with any use case that the default data source concept does not cover by design
    - Elastic Sources can be based on ``tstats``, ``raw``, ``from (datamodel and lookup)`` and ``mstats`` searches
-   - In addition, Elastic Sources can be executed over a ``rest`` remote query which allows tracking data that the search head(s) hosting TrackMe cannot access otherwise (such as a lookup that is only available to a Search Head Cluster while you run TrackMe on a monitoring utility search head)
+   - In addition, Elastic Sources can be executed over a remote Splunk deployment using the ``splunkremotesearch`` command which allows tracking data that the search head(s) hosting TrackMe cannot access otherwise (such as a lookup that is only available to a Search Head Cluster while you run TrackMe on a monitoring utility search head)
 
 As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
@@ -615,7 +864,11 @@ As we have exposed the main notions of TrackMe data discovery and tracking in :r
 
 .. hint:: 
 
-   The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
+   - The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
+   - Since TrackMe 2.0, you can as well create **hybrid trackers** for the nearly same purposes with advantages over Elastic Sources (hybrid trackers can only address tstats and raw searches)
+   - Unlike Elastic Sources, Hybrid trackers allow you to perform the discovery of many entities based on a given logic but from a single operation and automatically, saving computes and operations
+   - If you have many entities to be handled, such as a logic based on a subscription_id for a Cloud provider, use hybrid trackers rather than Elastic Sources
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
 
 **The concept of "Elastic Sources" is proper to TrackMe, and is linked to the complete level of flexibility the feature provides you to address any kind of use cases you might need to deal with.**
 
@@ -640,6 +893,7 @@ First, let's expose how to access the Elastic sources interface, from the data s
    :alt: img/first_steps/img027
    :align: center
    :width: 1200px
+   :class: with-border
 
 The following screen appears:
 
@@ -647,9 +901,15 @@ The following screen appears:
    :alt: img/first_steps/img028
    :align: center
    :width: 1200px
+   :class: with-border
 
 Elastic source example 1: source Metadata
 -----------------------------------------
+
+.. hint::
+
+   - Since TrackMe 2.0, this use case example is much better covered by hybrid trackers, and left for the purposes of the documentation
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
 
 **Let's take our first example, assuming we are indexing the following events:**
 
@@ -677,13 +937,15 @@ It is easy to understand that the default standard for data source ``index + ":"
    :alt: img/first_steps/img029
    :align: center
    :width: 1200px
+   :class: with-border
 
-In TrackMe data sources, this would appear as one entity and this is not helping me covering that use case:
+In TrackMe data sources, this would appear as one entity and this is not filling our requirements for that use case:
 
 .. image:: img/first_steps/img030.png
    :alt: img/first_steps/img030
    :align: center
    :width: 1200px
+   :class: with-border
 
 What if I want to be monitoring the fact that the EMEA region continues to be indexed properly ? and other regions ?
 
@@ -691,6 +953,11 @@ Elastic Sources is the TrackMe answer which allows you to extend the default fea
 
 Elastic source example 2: custom indexed fields
 -----------------------------------------------
+
+.. hint::
+
+   - Since TrackMe 2.0, this use case example is much better covered by hybrid trackers, and left for the purposes of the documentation
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
 
 **Let's extend a bit more the first example, and this time in addition with the region we have a company notion.**
 
@@ -713,24 +980,26 @@ This example of excellence allows our virtual customer to work at scale with per
 
 *Note the usage of "::" rather than "=" which indicates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
 
-Indeed, it is clear enough that the default data source feature does not me with the answer I need for this use case:
+Indeed, the default data source feature does fill the requirements we need for this use case:
 
 .. image:: img/first_steps/img032.png
    :alt: img/first_steps/img032
    :align: center
    :width: 1200px
+   :class: with-border
 
 Rather than one data source that covers the index/sourcetype, the requirement is to have 6 data sources that cover each couple of region/company.
 
 Any failure on the flow level which is represented by these new data sources will be detected.
 On the opposite, the default data source breaking on on the sourcetype would need a total failure of all pipelines to be detected.
 
-**By default, the data source would show up with a unique entity which is not filling my requirements:**
+**By default, the data source would show up with a unique entity which is not filling our requirements:**
 
 .. image:: img/first_steps/img033.png
    :alt: img/first_steps/img033
    :align: center
    :width: 1200px
+   :class: with-border
 
 The default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
 
@@ -739,18 +1008,17 @@ Elastic source example 3: tracking lookups update and number of records
 
 It is a very common and powerful practice to generate and maintain lookups in Splunk for numbers of purposes, which can be file based lookups (CSV files) or KVstore based lookups.
 
-Starting with TrackMe 1.2.28, it is possible to define an Elastic Source and monitor if the lookup is being updated as expected.
-
 A common caveheat with lookups is that their update is driven by Splunk searches, there are plenty of reasons why a lookup could stop being populated and maintained, such as scheduling issues, permissions, related knowledge objects updates, lack or changes in the data, and many more.
 
 The purpose of this example is to provide a builtin and effiscient way of tracking Splunk lookup updates at scale in the easy way, and get alerted if an update issue is detected in the lookup according to the policies defined in TrackMe.
 
-*Let's consider the simplistic following example, the lookup acme_assets_cmdb contains our ACME assets and is updated every day, we record in the field "lookupLastUpdated" the date and time of the execution of the Lookup gen report in Splunk. (in epoch time format)*
+*Let's consider the simplistic following example, the lookup acme_assets_cmdb contains our ACME assets and is updated every day, we record in the field "lastupdate" the date and time of the execution of the Lookup gen report in Splunk. (in epoch time format)*
 
 .. image:: img/first_steps/img-lookup-tracking1.png
    :alt: img/first_steps/img-lookup-tracking1
    :align: center
    :width: 1200px
+   :class: with-border
 
 The unique requirement for TrackMe to be able to monitor a lookup is to have a time concept which can use to define as the ``_time`` field which TrackMe will rely on.
 
@@ -767,93 +1035,78 @@ The following example shows the behaviour with a lookup that is updated every 30
    :alt: img/first_steps/img-rest-elastic2
    :align: center
    :width: 1200px
+   :class: with-border
 
-Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes below, and/or beyond a certain amount of records:
+A Lookup based Elastic Source acts transparently just as any other data source, so you can setup:
 
-.. image:: img/first_steps/img-rest-elastic-outliers.png
-   :alt: img/first_steps/img-rest-elastic-outliers
-   :align: center
-   :width: 1200px
+- delays KPIs: how often shall the lookup be updated, which allows you to monitor that your update process (reports, etc) remains valid and operational
+- volume outliers: to automatically be alerted when the number of records is abnormal, and easily detects critical failures in your lookup update process
 
-.. image:: img/first_steps/img-rest-elastic-outliers2.png
-   :alt: img/first_steps/img-rest-elastic-outliers2
-   :align: center
-   :width: 1200px
+Elastic source example 4: remote searches
+-----------------------------------------
 
-Elastic source example 4: rest searches
----------------------------------------
+.. hint::
+
+   - Since TrackMe 2.0, hybrid remote trackers can handle remote Splunk deployments monitoring at scale, with much more advantages over Elastic Sources in term of compute and operational costs
+   - This depends on the use cases, hybrid trackers handle tstats and raw searches only (not datamodels or lookups)
+   - Consult :ref:`Hybrid trackers` for more information about hybrid trackers
+
 
 **In some cases, the Splunk instance that hosts the TrackMe application may not not be able to access to a data you wish to monitor.**
-
-**A very simple to understand use case would be:**
 
 - You have a Splunk Search Head Cluster, hosting for example your premium application for ITSI or Enterprise Security
 - In addition, you either use your monitoring console host or a dedicated standalone search head for your Splunk environment monitoring, which is where TrackMe is deployed
 - A lookup exists in the SHC which is the object you need to monitor, this lookup is only available to the SHC members and TrackMe cannot access to its content transparently
 
-Using a ``rest`` command, you can hit a Splunk API search endpoint remotely, and use the builtin Elastic Source feature to monitor and track the lookup just as if it was available directly on the TrackMe search head.
+TrackMe provides a custom command named ``splunkremotesearch`` which performs searches to remote Splunk deployments using the Splunk API and an account you configure:
 
-*In short, on the SHC you can run:*
+**In the Splunk remote deployment account, create a new account, example:**
 
-::
+.. image:: img/hybrid_trackers/remote2.png
+   :alt: img/hybrid_trackers/remote2.png
+   :align: center
+   :width: 1200px
+   :class: with-border
 
-   | inputlookup acme_assets_cmdb
+**Account creation nodes:**
 
-*On the TrackMe Splunk instance, we will use a search looking like:*
+- The account name is important as it will be part of the name of each entity to be created for the remote deployment, in the format: ``remote:|account=<name>|index:sourcetype``
+- The URl is https enforced, and should include the port number of the Splunk API, traditionally your URL would look like: ``https://mysplunk.mydomain.com:8089``
+- The URL can either be an IP address or ideally a FQDN, if you are running a Search Head Cluster, then the URL would ideally refer to the VIP or load balancer FQDN
+- The bearer token is to be configured on the remote Splunk Search Head(s), and should be linked to a Splunk user account with enough privileges to access the indexes you need
+- The application namespace is search and reporting by default, however you can choose a different application context if needed
 
-::
-
-   | rest splunk_server_group="dmc_searchheadclustergroup_shc1" /servicesNS/admin/search/search/jobs/export search="| from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, \"%s\") | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \"none\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"rest:from:lookup:example\", data_index=\"pseudo_index\", data_sourcetype=\"lookup:acme_assets_cmdb\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen" output_mode="csv"
-
-*Notes and technical details:*
-
-- See https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches for more information about running searches over rest
-- See https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest for more information about the rest search command
-- ``rest`` based searches support all forms of searches supported by Elastic Sources: ``tstats``, ``raw``, ``from:datamodel``, ``from:lookup``, ``mstats`` 
-- Search Heads you wish to target need to be configured as distributed search peers in Splunk, same requirement as for the Splunk Monitoring Console host (MC, previously named DMC)
-- Most of the calculation part is executed on the target search head size, TrackMe will not attempt to retrieve the raw data first before performing the calculation for obvious performance gain purposes
-- You can target a search head explicity using the ``splunk_server`` argument, or you can target a group of search heads (such as your SHC) using the ``splunk_server_group`` argument
-- When targeting a group of search heads, the query is executed on every search that is matched by the splunk_server_group, therefore you should limit using a target group to very effiscient and low cost searches such as a from lookup for example
-- TrackMe in anycase will only consider the first result from the rest command (so only one search head answer during the rest execution, assuming search heads from the same group have the same data access), and will discard other search head replies
-- The search needs to be properly performing, and should complete in a acceptable time window (use timeout argument which defaults to 60 seconds)
-- Each result from the rest command, during the tracker execution or within the UI, passes through a Python based custom command to parse the CSV structure resulting from the rest command, to finally create the Splunk events during the search time execution
-- Except for ``| from lookup:`` rest searches, other types of searches automatically append the configured earliest and latest as arguments to the rest command (earliest_time, latest_time)
-- Earliest and Latest arguments are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
-- Additional parameters to the rest command can be added within the first pipe of the search constraint during the Elastic Source creation (such as timeout, count etc)
-
-.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
-
-**Examples for each type of search:**
+**Examples for each type of search which you will enter within the Elastic Search UI:**
 
 *tstats over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+   account="LAB" | index=* sourcetype=pan:traffic
 
 *raw search over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+   account="LAB" | index=* sourcetype=pan:traffic
 
 *from datamodel over rest:*
 
 ::
 
-   splunk_server="my_search_head" | datamodel:"Authentication" action=*
+   account="LAB" | datamodel:"Authentication" action=*
 
 *from lookup over rest:*
 
 ::
 
-   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   account="LAB" | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
 *mstats over rest:*
 
 ::
 
-   splunk_server="my_search_head" | index=* metric_name=docker*
+   account="LAB" | index=* metric_name=docker*
 
 As a conclusion, using the rest based searches features successfully completes the Elastic Sources level of features, such that every single use case can be handled in TrackMe, whenever the Splunk instance cam access or not to the data you need to track!
 
@@ -865,6 +1118,7 @@ Elastic source example 1: creation
 .. image:: img/first_steps/img034.png
    :alt: img/first_steps/img034
    :align: center
+   :class: with-border
 
 **Which opens the following screen:**
 
@@ -872,6 +1126,7 @@ Elastic source example 1: creation
    :alt: img/first_steps/img035
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Summary:**
 
@@ -887,13 +1142,7 @@ Elastic source example 1: creation
    :alt: img/first_steps/img036
    :align: center
    :width: 1200px
-
-**Let's click on this nice button!**
-
-.. image:: img/first_steps/img037.png
-   :alt: img/first_steps/img037
-   :align: center
-   :width: 1200px
+   :class: with-border
 
 This looks good isn't it?
 
@@ -911,6 +1160,8 @@ In this context:
 .. image:: img/first_steps/img038.png
    :alt: img/first_steps/img038
    :align: center
+   :width: 500px
+   :class: with-border
 
 Nice! Let's click on that button and immediately run the shared tracker, upon its execution we can see an all brand new data source entity that matches what we created:
 
@@ -918,6 +1169,7 @@ Nice! Let's click on that button and immediately run the shared tracker, upon it
    :alt: img/first_steps/img039
    :align: center
    :width: 1200px
+   :class: with-border
 
 Ok that's cool! 
 
@@ -929,14 +1181,11 @@ Ok that's cool!
    :alt: img/first_steps/img040
    :align: center
    :width: 1200px
+   :class: with-border
 
 "What about the original data source that created automatically?".
 
-We can simply disable the monitoring state via the disable button et voila!
-
-.. image:: img/first_steps/img041.png
-   :alt: img/first_steps/img041
-   :align: center
+We can simply disable the monitoring state via the disable button as it not needed anymore.
 
 Elastic source example 2: creation
 ----------------------------------
@@ -970,12 +1219,15 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
    :alt: img/first_steps/img042
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once again this is looking perfectly good, this time we will create a dedicated tracker:**
 
 .. image:: img/first_steps/img043.png
    :alt: img/first_steps/img043
    :align: center
+   :width: 500px
+   :class: with-border
 
 **Nice, let's click on the run button now, and repeat the operation for all entities!**
 
@@ -985,6 +1237,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
    :alt: img/first_steps/img044
    :align: center
    :width: 1200px
+   :class: with-border
 
 As we did earlier in the example 1, we will simply disable the original data source which is not required anymore.
 
@@ -994,6 +1247,7 @@ As we did earlier in the example 1, we will simply disable the original data sou
    :alt: img/first_steps/img045
    :align: center
    :width: 1200px
+   :class: with-border
 
 We can see that TrackMe has created a new scheduled report for each entity we created, it is perfectly possible to edit these reports up to your needs.
 
@@ -1008,13 +1262,13 @@ Litteraly, we are going to use the following SPL search to achieve our target:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
-If our lookupLastUpdated would have been in a human readable format, we could have used the stptime function to convert it into an epoch time, for example:
+If our lastupdate would have been in a human readable format, we could have used the stptime function to convert it into an epoch time, for example:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strptime(lookupLastUpdated, "%d/%m/%Y %H:%M:%S")
+   | from lookup:acme_assets_cmdb | eval _time=strptime(lastupdate, "%d/%m/%Y %H:%M:%S")
 
 *Applied to TrackMe in the Elastic Sources UI creation:*
 
@@ -1022,6 +1276,7 @@ If our lookupLastUpdated would have been in a human readable format, we could ha
    :alt: img/first_steps/img-lookup-tracking2
    :align: center
    :width: 1200px
+   :class: with-border
 
 Notes:
 
@@ -1036,47 +1291,54 @@ Notes:
    :alt: img/first_steps/img-rest-elastic2
    :align: center
    :width: 1200px
+   :class: with-border
 
 As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
 
 When TrackMe detects that the data source is a based on a lookup, the statistics are returned from the trackme metrics automatically.
 
-.. image:: img/first_steps/img-lookup-tracking5.png
-   :alt: img/first_steps/img-lookup-tracking5
-   :align: center
-   :width: 1200px
-
 Elastic source example 4: creation
 ----------------------------------
 
-As explained in the example 4 description, we can use a rest based search to monitor any data that is not available to the search head host TrackMe, let's consider the example a lookup hosted on a different search head.
+As explained in the example 4 description, we can run remote searches to monitor any data that is not available to the search head host TrackMe, let's consider the example a lookup hosted on a different search head.
 
 On the search head that owns the lookup, we can use the following query:
 
 ::
 
-   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
-Using a rest search, we will achieve the same job but this time remotely via a rest call to a search endpoint of the Splunk API using the rest command, the Elastic Source search syntax will be the following:
+Using the embedded ``splunkremotesearch`` and a remote Splunk deployment you have configured, we will achieve the same job but this time remotely, the Elastic Source search syntax will be the following:
 
 ::
 
-   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
-
-The first pipe needs to contain the arguments passed to the rest command, the only mandatory argument is either ``splunk_server`` to target a unique Splunk instance, or ``splunk_server_group`` to target a group of search heads.
-As well, any additional agrument can be given to the rest command by ading these in the first pipe of the search constraint. (timeout, count, etc)
-
-.. tip:: 
-
-   - The Splunk server name needs to be between double quotes, ex: splunk_server="my_search_head"
-   - In this example of a lookup, the knowledge objects needs to be shared properly such that it is available to be accessed via the rest API
+   account="name_of_the_account" | from lookup:acme_assets_cmdb | eval _time=strftime(lastupdate, "%s")
 
 .. image:: img/first_steps/img-rest-elastic1.png
    :alt: img/first_steps/img-rest-elastic1
    :align: center
    :width: 1200px
+   :class: with-border
 
-.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
+Underneath, what TrackMe does is a ``splunkremotesearch`` similar to: (with additional logics automatically generated by TrackMe)
+
+::
+
+   | splunkremotesearch account=LAB search="| from lookup:acme_cmdb_lookup | eval _time=strftime(lastupdate, \"%s\")" earliest="-4h" latest="+4h"
+
+.. image:: img/first_steps/img-rest-elastic1-bis.png
+   :alt: img/first_steps/img-rest-elastic1-bis
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+You can add the new Elastic Source, and immediately run the tracker: (shared or dedicated)
+
+.. image:: img/first_steps/img-rest-elastic1-created.png
+   :alt: img/first_steps/img-rest-elastic1-created
+   :align: center
+   :width: 1200px
+   :class: with-border
 
 Once created, the new data source appears in the UI automatically, the following example shows the behaviour with a lookup that is updated every 30 minutes:
 
@@ -1084,6 +1346,7 @@ Once created, the new data source appears in the UI automatically, the following
    :alt: img/first_steps/img-rest-elastic2
    :align: center
    :width: 1200px
+   :class: with-border
 
 In the example of a lookup, the Search button would result in the following:
 
@@ -1091,6 +1354,7 @@ In the example of a lookup, the Search button would result in the following:
    :alt: img/first_steps/img-rest-elastic3
    :align: center
    :width: 1200px
+   :class: with-border
 
 Elastic sources under the hood
 ------------------------------
@@ -1116,7 +1380,29 @@ When the Elastic Source shared tracker runs:
 
 ``TrackMe - Elastic sources shared tracker``
 
-It calls a special saved search ``| savedsearch runSPL`` which expects in argument any number of SPL searches to be performed.
+TrackMe calls a custom command named ``trackmeelasticexecutor``, this custom command loads the SPL logic from the KVstore collection, and runs the searches sequentially using the Splunk Python SDK.
+
+Logs from the execution are available in:
+
+::
+
+   index=_internal sourcetype=trackme:custom_commands:trackmeelasticexecutor
+
+Especially, we can notice for each single Elastic Source that the search is logged as well as its execution run time:
+
+.. image:: img/first_steps/img-elastic-shared-executor1.png
+   :alt: img/first_steps/img-elastic-shared-executor1.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+At the end of the Elastic Shared execution process, we can a total run time metric including how many Elastic Sources were performed:
+
+.. image:: img/first_steps/img-elastic-shared-executor2.png
+   :alt: img/first_steps/img-elastic-shared-executor2.png
+   :align: center
+   :width: 1200px
+   :class: with-border
 
 The tracker loads each record stored in the collection, and uses different evaluations to compose the final SPL search for each record.
 
@@ -1162,6 +1448,7 @@ Remove Elastic Sources
    :alt: img/first_steps/img_delete_elastic_sources
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Example with dedicated Elastic Sources:*
 
@@ -1169,6 +1456,7 @@ Remove Elastic Sources
    :alt: img/first_steps/img_delete_elastic_sources2
    :align: center
    :width: 1200px
+   :class: with-border
 
 *When deleting Elastic Sources via the UI, the following actions are occurring:*
 
@@ -1188,6 +1476,7 @@ Outliers detection and behaviour analytic
    :alt: screenshot_outliers1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **How things work:**
 
@@ -1216,6 +1505,7 @@ Behaviour Analytic Mode
    :alt: behaviour_analytic_mode.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Using Outliers detection
 ------------------------
@@ -1226,6 +1516,7 @@ Using Outliers detection
    :alt: outliers_zoom1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **The table exposes the very last result from the analysis:**
 
@@ -1260,6 +1551,7 @@ Simulating and adjusting Outliers detection
    :alt: outliers_config1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **For example, you can increase the value of the threshold multiplier to improve the outliers detection in regard with your knowledge of this data, or how its distribution behaves over time:**
 
@@ -1267,6 +1559,7 @@ Simulating and adjusting Outliers detection
    :alt: outliers_config2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **As well, in some cases you may wish to use a static lower bound value, if you use the static mode, then the outlier detection for the lower band is not used anymore and replaced by this static value as the minimal number of events:**
 
@@ -1274,6 +1567,7 @@ Simulating and adjusting Outliers detection
    :alt: outliers_config3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Upper bound outliers detection does not affect the alert status by default, however this option can be enabled and the threshold multiplier be customised if you need to detect a large increase in the volume of data generated by this source:**
 
@@ -1281,6 +1575,7 @@ Simulating and adjusting Outliers detection
    :alt: outliers_upper1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Saving the configuration
 ------------------------
@@ -1311,6 +1606,7 @@ Data sampling and event formats recognition
    :alt: img_data_sampling_main_red.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **How things work:**
 
@@ -1325,6 +1621,7 @@ Data sampling and event formats recognition
 .. image:: img/mindmaps/data_sampling_main.png
    :alt: data_sampling_main.png
    :align: center
+   :class: with-border
 
 Data Sampling obfuscation mode
 ------------------------------
@@ -1335,6 +1632,7 @@ Data Sampling obfuscation mode
    :alt: data_sampling_obfuscate.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - In the default mode, that is ``Disable Data Sampling obfuscation mode``, events that are sampled are stored in the data sampling KVstore collection and can be used to review the results from the latest sampling operation
 - In the ``Enable Data Sampling obfuscation mode``, events are not stored anymore and replaced by an admin message, the sampling processing still happens the same way but events cannot be reviewed anymore using the latest sample traces
@@ -1348,6 +1646,7 @@ As a summary, you can enable the obfuscation mode if you have for instance a pop
    :alt: data_sampling_obfuscate2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 These searches are performed on behalf on the user as normal Splunk searches, as such if the user cannot access to these data, there would be no results accessible.
 
@@ -1357,6 +1656,7 @@ These searches are performed on behalf on the user as normal Splunk searches, as
    :alt: data_sampling_obfuscate3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 As a conclusion, enable the data sampling obfuscation mode if you are concerned about having users able to access to events they are not supposed to, when it is enabled, the collection cannot contain amymore any potentially sensitive information while the main and more valuable features are preserved.
 
@@ -1376,6 +1676,7 @@ Summary statuses
    :alt: img_data_sampling_state_green.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Blue state: data sampling engine did not inspect this data source yet*
 
@@ -1383,6 +1684,7 @@ Summary statuses
    :alt: img_data_sampling_state_blue.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Orange state: data sampling was disabled due to events format recognition conditions that would not allow to manage this data properly (multiformat, no event formats identification possible)*
 
@@ -1390,18 +1692,15 @@ Summary statuses
    :alt: img_data_sampling_state_orange1.png
    :align: center
    :width: 1200px
-
-.. image:: img/first_steps/img_data_sampling_state_orange2.png
-   :alt: img_data_sampling_state_orange2.png
-   :align: center
-   :width: 1200px
-
+   :class: with-border
+   
 *Red state: anomalies were detected*
 
 .. image:: img/first_steps/img_data_sampling_state_red.png
    :alt: img_data_sampling_state_red.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Manage data sampling
 --------------------
@@ -1412,6 +1711,7 @@ Manage data sampling
    :alt: img_data_sampling002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **The summary table shows the main key information:**
 
@@ -1444,6 +1744,7 @@ This button opens a new view that exposes the builtin rules used by TrackMe, and
    :alt: img_data_sampling_show_builtin.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Builtin rules should not be modified, instead use custom rules to handle event formats that would not be properly identified by the builtin regular expression rules.
 
@@ -1456,6 +1757,7 @@ Custom rules provides a workflow to handle any custom sourcetypes and event form
    :alt: img_data_sampling_show_custom1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
 
@@ -1471,6 +1773,7 @@ This screen alows to test and create a new custom rule based on the current data
    :alt: img_data_sampling_create_custom1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 To create a new custom rule:
 
@@ -1489,6 +1792,7 @@ To create a new custom rule:
    :alt: img_data_sampling_create_custom2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Once you have created a new custom rule, this rule will be applied automatically to future executions of the data sampling engine:
 
@@ -1503,6 +1807,7 @@ Once there is at least one custom rule defined, the list of custom rules appears
    :alt: img_data_sampling_delete_custom.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 When a custom rule is removed, future executions of the data sampling engine will not consider the rule deleted anymore, optionally you can run the data sampling engine now or clear the state for a data source.
 
@@ -1542,6 +1847,8 @@ Use this UI to choose a different value, increasing the number of events per sam
 .. image:: img/first_steps/img_data_sampling_records_nr.png
    :alt: img_data_sampling_records_nr.png
    :align: center
+   :width: 500px
+   :class: with-border
 
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1553,8 +1860,8 @@ Use this function to clear any state previously determined, this forces the data
 - Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
 - You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
 
-Disable Data sampling for a give data source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Disable Data sampling for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use this function to disable data sampling for a given data source, there can be cases where you would need to disable this feature if for example there is a lack of quality which cannot be fixed, and some random formats are introduced out of your control.
 
@@ -1564,6 +1871,7 @@ Disabling the feature means defining the value of the field **data_sample_featur
    :alt: img_data_sampling_disable.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The Data sampling feature can be enabled / disabled at any point in time, as soon as a data source is disabled, TrackMe stops considering it during the sampling operations.
 
@@ -1578,6 +1886,7 @@ An audit dashboard is provided in the audit navigation menu, this dashboard prov
    :alt: img_data_sampling_audit.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Data sampling example 1: monitor a specific format
 --------------------------------------------------
@@ -1609,6 +1918,7 @@ Once the rule has been created:
    :alt: img_data_sampling_create_custom2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The next execution of the data sampling will report the name of the rule for each data source that is matching our conditions:
 
@@ -1616,6 +1926,7 @@ The next execution of the data sampling will report the name of the rule for eac
    :alt: img_data_sampling_create_custom3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Should a change in the events format happen, such as malformed events happening for any reason, the data sampling rule would match these exceptions and render a status error to be reviewed.
 
@@ -1623,6 +1934,7 @@ Should a change in the events format happen, such as malformed events happening 
    :alt: img_data_sampling_create_custom4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Review of the latest events sample would clearly show the root cause of the issue: (button **View latest sample events**):
 
@@ -1630,6 +1942,7 @@ Review of the latest events sample would clearly show the root cause of the issu
    :alt: img_data_sampling_create_custom5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 As the data sampling engine stops proceeding a data source as soon as an issue was detected, these events are the exact events that have caused the anomaly exception at the exact time it happened.
 
@@ -1663,6 +1976,7 @@ Should any event be matching this regular expression, we would most likely face 
    :alt: img_data_sampling_create_custom6.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Our data uses a format that is recognized automatically by builtin rules, and would appears as following in normal circumstances:
 
@@ -1670,6 +1984,7 @@ Our data uses a format that is recognized automatically by builtin rules, and wo
    :alt: img_data_sampling_create_custom7.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 After some time, we introduce events containing real clear text credit card numbers, eventually our custom rule will automatically detect it and state an alert on the data source:
 
@@ -1677,16 +1992,19 @@ After some time, we introduce events containing real clear text credit card numb
    :alt: img_data_sampling_create_custom8.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/first_steps/img_data_sampling_create_custom9.png
    :alt: img_data_sampling_create_custom9.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/first_steps/img_data_sampling_create_custom10.png
    :alt: img_data_sampling_create_custom10.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 We can clearly understand the root cause of the issue reported by TrackMe, shall we investigate further (button **View latest sample events**):
 
@@ -1694,6 +2012,7 @@ We can clearly understand the root cause of the issue reported by TrackMe, shall
    :alt: img_data_sampling_create_custom11.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Thanks to the data sampling feature, we are able to get an automated tracking that is working at any scale, keep in mind that TrackMe will proceed by picking up samples, which means a very rare condition will potentially not be detected.
 
@@ -1727,6 +2046,7 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :alt: img/smart_status/access_ui.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Smart Status example: (normal state entity)*
 
@@ -1734,6 +2054,7 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :alt: img/smart_status/access_ui2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Smart Status example: (alert state entity due to outliers)*
 
@@ -1741,6 +2062,7 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :alt: img/smart_status/access_ui3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Smart Status example: (alert state entity due to data sampling exclusive rule matching PII data)*
 
@@ -1748,6 +2070,7 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :alt: img/smart_status/access_ui4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Smart Status example: (alert state entity due to lagging)*
 
@@ -1755,6 +2078,7 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :alt: img/smart_status/access_ui5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Smart Status from external third party
 --------------------------------------
@@ -1767,11 +2091,13 @@ The Smart Status feature is serviced by a REST API endpoint, as such it can be r
    :alt: img/smart_status/access_rest.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/smart_status/access_rest2.png
    :alt: img/smart_status/access_rest2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 See: :ref:`Smart Status endpoints`
 
@@ -1790,19 +2116,15 @@ The alert topic is as well discussed at the configuration step: :ref:`Step 7: en
 Alerts tracking main screen
 ---------------------------
 
-**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab:**
+**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab.**
+
+**The screen shows a 24 hours overview of the alerts activity:**
 
 .. image:: img/ootb_alerts.png
    :alt: ootb_alerts.png
    :align: center
    :width: 1200px
-
-**Depending on the alerts that were enabled, and the actiity of the environment, the screen shows a 24 hours overview of the alerts activity:**
-
-.. image:: img/ootb_alerts2.png
-   :alt: ootb_alerts2.png
-   :align: center
-   :width: 1200px
+   :class: with-border
 
 **Clicking on any alert opens an overview window for this alert with shortcut to the Splunk alert editor and other functions:**
 
@@ -1810,6 +2132,7 @@ Alerts tracking main screen
    :alt: ootb_alerts3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Alerts tracking: out of the box alerts
 --------------------------------------
@@ -1837,6 +2160,7 @@ Alerts tracking: custom alerts
    :alt: img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This opens the assistant where you can choose between different builtin options depending on the type of entities to be monitoring:**
 
@@ -1844,6 +2168,7 @@ Alerts tracking: custom alerts
    :alt: img002.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Once you have created a new alert, it will be immediately visible in the tracking alerts UI, and you can use the Splunk built alert editor to modify the alert to up to your needs such as enabling third party actions, emails actions and so forth.
 
@@ -1870,6 +2195,7 @@ Alert action: TrackMe auto acknowledge
    :alt: auto_ack1.png
    :align: center
    :width: 600px
+   :class: with-border
 
 .. admonition:: Auto acknowledgement
 
@@ -1885,13 +2211,15 @@ Alert action: TrackMe auto acknowledge
    :alt: auto_ack2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-*An audit change event is automatically logged and visible in the UI:**
+**An audit change event is automatically logged and visible in the UI:**
 
 .. image:: img/alert_actions/auto_ack3.png
    :alt: auto_ack3.png
    :align: center
-   :width: 900px
+   :width: 1200px
+   :class: with-border
 
 *The entity has the acknowledged icon visible in the main UI screen:*
 
@@ -1899,6 +2227,7 @@ Alert action: TrackMe auto acknowledge
    :alt: auto_ack4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *The result from the Ack endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
 
@@ -1906,6 +2235,7 @@ Alert action: TrackMe auto acknowledge
    :alt: auto_ack5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Alert action: Trackme Smart Status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1914,6 +2244,7 @@ Alert action: Trackme Smart Status
    :alt: smart_status1.png
    :align: center
    :width: 600px
+   :class: with-border
 
 .. admonition:: Smart Status alert action
 
@@ -1935,6 +2266,7 @@ Alert action: Trackme Smart Status
    :alt: smart_status2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *The result from the Smart Status endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
 
@@ -1942,6 +2274,7 @@ Alert action: Trackme Smart Status
    :alt: smart_status3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Alert action: TrackMe free style rest call
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1950,6 +2283,7 @@ Alert action: TrackMe free style rest call
    :alt: smart_status1.png
    :align: center
    :width: 600px
+   :class: with-border
 
 .. admonition:: Free style alert action
 
@@ -1975,6 +2309,7 @@ Alert action: TrackMe free style rest call
    :alt: smart_status2.png
    :align: center
    :width: 600px
+   :class: with-border
 
 *When the alert triggers:*
 
@@ -1982,6 +2317,7 @@ Alert action: TrackMe free style rest call
    :alt: free_style3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *The result from the Smart Status endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
 
@@ -1989,6 +2325,7 @@ Alert action: TrackMe free style rest call
    :alt: free_style4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Alerts acknowledgment within the UI
 -----------------------------------
@@ -2001,6 +2338,7 @@ Alerts acknowledgment within the UI
    :alt: ack1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Acknowledgments provides a way to:**
 
@@ -2025,6 +2363,7 @@ Alerts acknowledgment within the UI
    :alt: ack2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Acknowledge for an active alert is active:**
 
@@ -2032,6 +2371,7 @@ Alerts acknowledgment within the UI
    :alt: ack3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once active, an acknowledge can be disabled on demand by clicking on the Ack table:**
 
@@ -2039,6 +2379,7 @@ Alerts acknowledgment within the UI
    :alt: ack4.png
    :align: center
    :width: 500px
+   :class: with-border
 
 **All acknowledgement related actions are recorded in the audit collection and report.**
 
@@ -2048,6 +2389,7 @@ Alerts acknowledgment within the UI
    :alt: ack5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Priority management
 ===================
@@ -2076,6 +2418,7 @@ First, the UI exposes the current status depending on the priority of the entiti
    :alt: img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 As well, the priority can be easily filtered:
 
@@ -2083,6 +2426,7 @@ As well, the priority can be easily filtered:
    :alt: img002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The priority is visible in the table too:
 
@@ -2090,6 +2434,7 @@ The priority is visible in the table too:
    :alt: img003.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 When clicking on an entity, the priority is shown on top with a blue colour scheme that starts from light blue for low, blue for medium and darker blue for high:
 
@@ -2097,6 +2442,7 @@ When clicking on an entity, the priority is shown on top with a blue colour sche
    :alt: img004.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The default priority assigned is "medium" and managed by the following macro:
 
@@ -2115,6 +2461,7 @@ Modify the priority
    :alt: img004.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Bulk update the priority
 ------------------------
@@ -2142,7 +2489,8 @@ Monitored state (enable / disable buttons)
 .. image:: img/enable_disable.png
    :alt: enable_disable.png
    :align: center
-   :width: 800px
+   :width: 1200px
+   :class: with-border
 
 If an entity is set to ``disabled``, it will not appear anymore in the main screens, will not be part of any alert results, and no more metrics will be collected for it.
 
@@ -2160,6 +2508,7 @@ Week days monitoring
 .. image:: img/week_days1.png
    :alt: week_days1.png
    :align: center
+   :class: with-border
 
 **Several built-in rules are available:**
 
@@ -2172,13 +2521,35 @@ Week days monitoring
 .. image:: img/week_days2.png
    :alt: week_days2.png
    :align: center
+   :width: 500px
+   :class: with-border
 
-**Which is visible in the table:**
+An entity that would have normally triggered a red state would turn orange instead if the current day is not included in the week days monitoring, allowing to easily exclude it from your alerting logic.
 
-.. image:: img/week_days_table.png
-   :alt: week_days_table.png
+Hours ranges monitoring
+=======================
+
+.. admonition:: Hours days monitoring
+
+   In addition with the week days monitoring, you can explicitly choose which hours ranges of the days the monitoring rules should apply.
+
+.. image:: img/hours_ranges1.png
+   :alt: hours_ranges1.png
    :align: center
-   :width: 1200px
+   :class: with-border
+
+**Several built-in rules are available:**
+
+* manual:all_ranges
+* manual:08h-to-20h
+
+**Or you can select explicitly which days of the week:**
+
+.. image:: img/hours_ranges2.png
+   :alt: hours_ranges2.png
+   :align: center
+   :width: 500px
+   :class: with-border
 
 Monitoring level
 ================
@@ -2194,6 +2565,7 @@ Monitoring level
    :alt: monitoring_level.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Feature behaviour:
 
@@ -2223,11 +2595,12 @@ Maximal lagging value
    :alt: .. image:: img/max_lagging.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
+This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Entities main setting update screens`.
 
 Lagging classes
-======================
+===============
 
 .. admonition:: Lagging classes
 
@@ -2241,6 +2614,7 @@ Lagging classes
    :alt: lagging_class_access.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Which lets you access to the following UI:**
 
@@ -2248,6 +2622,7 @@ Lagging classes
    :alt: lagging_class_main.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Lagging classes are controlled by the following main rules:**
 
@@ -2279,6 +2654,7 @@ As well, it is possible to override this behaviour and manually control the maxi
    :alt: lagging_class_override.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 
 Lagging classes behaviour for data hosts
@@ -2301,6 +2677,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
    :alt: lagging_class_override_data_hosts_ex1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 |:arrow_right:| by default, TrackMe applies a 3600 max lagging value per sourcetype and for the overall host
 
@@ -2312,6 +2689,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
    :alt: lagging_class_override_data_hosts_ex2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - Now let's create a new lagging class matching the sourcetype ``Script:ListeningPorts`` with a short max lagging class of 300 seconds
 - The provider is stopped for the demonstration purposes
@@ -2325,6 +2703,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
    :alt: lagging_class_override_data_hosts_ex3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Alerting policy track per host:**
 
@@ -2332,6 +2711,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
    :alt: lagging_class_override_data_hosts_ex4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. admonition:: Lagging classes override
 
@@ -2372,6 +2752,7 @@ Let's assume the following use case:
    :alt: img_lagging_classes_example_priority1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Let's create our 3 lagging classes via the UI, in our example we will want to apply these policies to data hosts only:**
 
@@ -2379,6 +2760,7 @@ Let's assume the following use case:
    :alt: img_lagging_classes_example_priority2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once the policies have been created, we can run the Data hosts trackers manually or wait for the next automatic execution, policies are applied successfully:**
 
@@ -2386,6 +2768,7 @@ Let's assume the following use case:
    :alt: img_lagging_classes_example_priority3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Note: The lagging value that will be inherited from the policy cannot be lower than the highest lagging value between the sourcetypes of a given host, shall this be the case, TrackMe will automatically use the highest lagging value between all sourcetypes linked to that host.*
 
@@ -2402,6 +2785,7 @@ Allowlisting & Blocklisting
    :alt: allowlist_and_blocklist.png
    :align: center
    :width: 800px
+   :class: with-border
 
 **The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:**
 
@@ -2409,6 +2793,7 @@ Allowlisting & Blocklisting
    :alt: .png
    :align: center
    :width: 800px
+   :class: with-border
 
 Different level of blocklisting features are provided out of the box, which features can be used to avoid taking in consideration indexes, sourcetypes, hosts and data sources based on the data_name generated by TrackMe.
 
@@ -2428,6 +2813,7 @@ Different level of blocklisting features are provided out of the box, which feat
    :alt: blocklist_example.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Resetting collections to factory defaults
 =========================================
@@ -2440,12 +2826,14 @@ Resetting collections to factory defaults
    :alt: reset_btn.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **If you validate the operation, all configuration changes will be lost (like week days monitoring rules changes, etc) and the long term tracker will be run automatically:**
 
 .. image:: img/reset1.png
    :alt: reset1.png
    :align: center
+   :class: with-border
 
 Once the collection has been cleared, you can simply wait for the trackers next executions, or manually perform a run of the short term and/or long term trackers.
 
@@ -2458,6 +2846,7 @@ Deletion of entities
    :alt: delete1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Two options are available:**
 
@@ -2465,6 +2854,7 @@ Deletion of entities
    :alt: delete2.png
    :align: center
    :width: 800px
+   :class: with-border
 
 - When the data source or host is temporary removed, it will be automatically re-created if it has been active during the time range scope of the trackers.
 - When the data source or host is permanently removed, a record of the operation is stored in the audit changes KVstore collection, which we automatically use to prevent the source from being re-created effectively.
@@ -2472,6 +2862,7 @@ Deletion of entities
 .. image:: img/delete3.png
    :alt: delete3.png
    :align: center
+   :class: with-border
 
 When an entity is deleted via the UI, the audit record exposes the full content of the entity as it was at the time of the deletion:
 
@@ -2479,6 +2870,7 @@ When an entity is deleted via the UI, the audit record exposes the full content 
    :alt: delete4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 It is not possible at the moment to ``restore`` an entity that was previously deleted, however an active entity can be recreated automatically depending on the scope of the data discovery (the data must be available to TrackMe), and with the help of the audit record you could easily re-apply any settings that would be required.
 
@@ -2496,14 +2888,17 @@ Icon dynamic messages
 .. image:: img/icon_message1.png
    :alt: icon_message1.png
    :align: center
+   :class: with-border
 
 .. image:: img/icon_message2.png
    :alt: icon_message2.png
    :align: center
+   :class: with-border
 
 .. image:: img/icon_message3.png
    :alt: icon_message3.png
    :align: center
+   :class: with-border
 
 To access to the dynamic message, simply focus over the icon in the relevant table cell, and the Web browser will automatically display the message for that entity.
 
@@ -2534,6 +2929,7 @@ Because the passive node might not generate data, we only want to alert if both 
    :alt: logical_groups_example1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 In our example, we have two hosts:
 
@@ -2548,6 +2944,7 @@ For this, we click on the first host, then Modify and finally we click on the Lo
    :alt: logical_groups_example2.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Since we don't have yet a group, let's create a new group:
 
@@ -2555,6 +2952,7 @@ Since we don't have yet a group, let's create a new group:
    :alt: logical_groups_example3.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Once the group is created, the first node is automatically associated with the group, let's click on the second node and associate it with our new group:
 
@@ -2562,6 +2960,7 @@ Once the group is created, the first node is automatically associated with the g
    :alt: logical_groups_example4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 We clicked on the group which we want to associate the entity with, which performs the association automatically, finally we can see the state of the second host has changed from ``red`` to ``blue``:
 
@@ -2569,6 +2968,7 @@ We clicked on the group which we want to associate the entity with, which perfor
    :alt: logical_groups_example5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 If we click on the entity and check the status message tab, we can observe a clear message indicating the reason of the state including the name of the logical group this entity is part of:
 
@@ -2576,6 +2976,7 @@ If we click on the entity and check the status message tab, we can observe a cle
    :alt: logical_groups_example6.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Shall later on the situation be inversed, the active node became passive and the passive became passive, the states will be reversed, since the logical group monitoring rules (50% active) are respected there will not be any alert generated:
 
@@ -2583,6 +2984,7 @@ Shall later on the situation be inversed, the active node became passive and the
    :alt: logical_groups_example7.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Finally, shall both entities be inactive, their status will be ``red`` and alerts will be emitted as none of these are meeting the logical group monitoring rules:
 
@@ -2590,6 +2992,7 @@ Finally, shall both entities be inactive, their status will be ``red`` and alert
    :alt: logical_groups_example8.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 The status message tab would expose clearly the reason of the ``red`` status:
 
@@ -2597,6 +3000,7 @@ The status message tab would expose clearly the reason of the ``red`` status:
    :alt: logical_groups_example9.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Create a new logical group
 --------------------------
@@ -2607,6 +3011,7 @@ To create a new logical group and associate a first member, enter the unified mo
    :alt: logical_group1.png
    :align: center
    :width: 800px
+   :class: with-border
 
 If the entity is not yet associated with a logical group (an entity cannot be associated with more than one group), the following message is displayed:
 
@@ -2614,6 +3019,7 @@ If the entity is not yet associated with a logical group (an entity cannot be as
    :alt: logical_group3.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Click on the button "Create a new group" which opens the following configuration window:
 
@@ -2621,6 +3027,7 @@ Click on the button "Create a new group" which opens the following configuration
    :alt: logical_group4.png
    :align: center
    :width: 800px
+   :class: with-border
 
 - Enter a name for the logical group (names do not need to be unique and can accept any ascii characters)
 
@@ -2635,6 +3042,7 @@ If a logical group already exists and you wish to associate this entity to this 
    :alt: logical_group5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - Optionally use the filter input box to search for a logical group
 
@@ -2651,6 +3059,7 @@ When an entity is associated to a logical group and if this entity is in red sta
 .. image:: img/logical_group6.png
    :alt: logical_group6.png
    :align: center
+   :class: with-border
 
 In addition, the entity will not be eligible to trigger any alert as long as the logical group honours the monitoring rules.(minimal green percentage of the logical group)
 
@@ -2662,6 +3071,7 @@ When an entity associated to a logical group is red, and the logical group is re
 .. image:: img/logical_group7.png
    :alt: logical_group7.png
    :align: center
+   :class: with-border
 
 Alerts will be generated for any entities part of the logical groups which are in red status, and where the monitoring state is enabled.
 
@@ -2674,6 +3084,7 @@ To remove an association from a logical group, click on the entry table in the i
    :alt: logical_group8.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
 
@@ -2695,6 +3106,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: data_hosts_alerting_policy1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Zooming on the summary sourcetype field:**
 
@@ -2702,6 +3114,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: data_hosts_alerting_policy2.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 **The field provides visibility against each sourcetype known to the host, a main state (red / green) represented by an ASCII emoji and the KPI main information about the sourcetypes:**
 
@@ -2717,6 +3130,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: data_hosts_alerting_policy3.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 .. hint::
 
@@ -2735,6 +3149,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: data_hosts_alerting_policy4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Three options are available:**
 
@@ -2752,6 +3167,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: lagging_class_override_data_hosts_ex3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Alerting policy track per host:*
 
@@ -2759,6 +3175,7 @@ See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for 
    :alt: lagging_class_override_data_hosts_ex4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Tags
 ====
@@ -2781,6 +3198,7 @@ Tags
    :alt: tags_filter.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Tags policies
 -------------
@@ -2791,11 +3209,13 @@ Tags policies
    :alt: tags_policies_img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/tags_policies_img002.png
    :alt: tags_policies_img002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Create a new tags policy
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2806,6 +3226,7 @@ Create a new tags policy
    :alt: tags_policies_img003.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Fill the UI with the required information:**
 
@@ -2826,6 +3247,7 @@ Tags policies are applied sequentially in the order the entries are stored in th
    :alt: tags_policies_img004.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Once the simulation was executed, click on the red button "Add this new policy":*
 
@@ -2833,6 +3255,7 @@ Tags policies are applied sequentially in the order the entries are stored in th
    :alt: tags_policies_img005.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Tags policies are applied automatically by the data source trackers, you can wait for scheduled executions or manually run the tracker (short term or long term, or both) to immediately assign the tags:*
 
@@ -2840,6 +3263,7 @@ Tags policies are applied sequentially in the order the entries are stored in th
    :alt: tags_policies_img006.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Tag policy multiple matching
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2887,6 +3311,7 @@ Update and delete tags policies
    :alt: tags_policies_img007.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Manual tags
 -----------
@@ -2897,6 +3322,7 @@ Manual tags
    :alt: tags_img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **When no tags have been defined yet for a data source, the following screen would appear:**
 
@@ -2904,6 +3330,7 @@ Manual tags
    :alt: tags_img002.png
    :align: center
    :width: 800px
+   :class: with-border
 
 **When tags have been defined for a data source, the following screen would appear:**
 
@@ -2911,6 +3338,7 @@ Manual tags
    :alt: tags_img002bis.png
    :align: center
    :width: 800px
+   :class: with-border
 
 **You can click on the "Manage: manual tags" button to define one or more tags for a given data source:**
 
@@ -2918,6 +3346,7 @@ Manual tags
    :alt: tags_img003.png
    :align: center
    :width: 800px
+   :class: with-border
 
 *Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma separated list of values.*
 
@@ -2930,6 +3359,7 @@ Adding new tags
    :alt: tags_img004.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Once a new tag is added, it is made available automatically in the tag filter from the main Trackme data source screen.
 
@@ -2944,6 +3374,7 @@ Updating tags
    :alt: tags_img005.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Clearing tags
 ^^^^^^^^^^^^^
@@ -2956,6 +3387,7 @@ Clearing tags
    :alt: tags_img006.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Data identity card
 ==================
@@ -2972,6 +3404,7 @@ Data identity card
    :alt: identity_card4.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Data identity: global identity card
 -----------------------------------
@@ -2982,6 +3415,7 @@ As a TrackMe administrator, define a value for the global URL and the global not
    :alt: identity_card_global.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. warning:: The global identity card is enabled only if a value was defined for **both** the URL and the note
 
@@ -2991,6 +3425,7 @@ As a TrackMe administrator, define a value for the global URL and the global not
    :alt: identity_card_defined.png
    :align: center
    :width: 500px
+   :class: with-border
 
 *Following the link opens the identity card UI:*
 
@@ -2998,6 +3433,7 @@ As a TrackMe administrator, define a value for the global URL and the global not
    :alt: identity_card_global2.png
    :align: center
    :width: 800px
+   :class: with-border
 
 *Given that this is a global identity card, the "Delete card" is disabled automatically, however it is still possible to create a new identity card to be associated with this data source which will replace the global card automatically.*
 
@@ -3032,6 +3468,7 @@ This command returns the ID card as a JSON object, note the ``key`` value which 
    :alt: wildcard_matching_create1.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 Step 2: Associate the Identity card using the ``trackme`` SPL command
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3048,6 +3485,7 @@ This command returns the ID card as a JSON object, develop the object JSON key t
    :alt: wildcard_matching_create2.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 Any entity matching this wildcard criteria will now be associated with this ID card, shall you want to associate the same card with another matching wildcard, say ``windows_*``:
 
@@ -3059,6 +3497,7 @@ Any entity matching this wildcard criteria will now be associated with this ID c
    :alt: wildcard_matching_create3.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 **Make sure to reload the TrackMe UI**, the following ID card will be associated automatically with any entity that matches your criterias:
 
@@ -3066,6 +3505,7 @@ Any entity matching this wildcard criteria will now be associated with this ID c
    :alt: wildcard_matching_example.png
    :align: center
    :width: 800px
+   :class: with-border
 
 And so forth for any additional wildcard matching you may need.
 
@@ -3084,6 +3524,7 @@ An association can be removed easily, the following ``trackme`` SPL command remo
    :alt: wildcard_matching_remove1.png
    :align: center
    :width: 1000px
+   :class: with-border
 
 For additional options or more details, consult the :ref:`Identity Cards endpoints` documentation.
 
@@ -3097,6 +3538,7 @@ Data identity: workflow
    :alt: identity_card_notdefined.png
    :align: center
    :width: 800px
+   :class: with-border
 
 **You can click on the link to create a new identity card:**
 
@@ -3104,6 +3546,7 @@ Data identity: workflow
    :alt: identity_card2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once the identity card has been created, the following message link is shown:**
 
@@ -3111,6 +3554,7 @@ Data identity: workflow
    :alt: identity_card3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Which automatically provides a view with the identity card content:**
 
@@ -3118,6 +3562,7 @@ Data identity: workflow
    :alt: identity_card4.png
    :align: center
    :width: 800px
+   :class: with-border
 
 In addition, the fields "doc_link" and "doc_note" are part of the default output of the default alert, which can be recycled eventually to enrich a ticketing system incident.
 
@@ -3127,11 +3572,13 @@ In addition, the fields "doc_link" and "doc_note" are part of the default output
    :alt: identity_card5.png
    :align: center
    :width: 800px
+   :class: with-border
 
 .. image:: img/identity_card6.png
    :alt: identity_card6.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Auditing changes
 ================
@@ -3144,6 +3591,7 @@ Auditing changes
    :alt: auditing1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Different information related to the change performed are stored in the collection, such as the user that performed the change, the type of object, the existing state before the change is performed, and so forth.
 
@@ -3174,6 +3622,7 @@ Using the UI, you can easily monitor and investigate the historical changes of a
    :alt: audit_flipping.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 These events are automatically generated by the tracker reports, and are as well used for SLA calculation purposes.
 
@@ -3190,6 +3639,7 @@ Ops: Queues center
    :alt: ops_queues_001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This view shows Splunk pipeline queues usage in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
 
@@ -3197,11 +3647,13 @@ Ops: Queues center
    :alt: ops_queues_001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/ops_queues_003.png
    :alt: ops_queues_001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Options in the view:**
 
@@ -3221,6 +3673,7 @@ Ops: Parsing view
    :alt: ops_parsing_001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This view shows parsing errors happening in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
 
@@ -3228,11 +3681,13 @@ Ops: Parsing view
    :alt: ops_parsing_002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/ops_parsing_003.png
    :alt: ops_parsing_003.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Options in the view:**
 
@@ -3284,6 +3739,7 @@ Connected experience dashboard for Splunk Mobile & Apple TV
    :alt: connected_dashboard.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 This dashboard is exported to the system, to be made available to Splunk Cloud Gateway.
 
@@ -3310,6 +3766,7 @@ Fortunately, Splunk with alert actions and addon extensions allows interacting w
    :alt: slack_audit_change_flow.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *For Slack integration, see*
 
@@ -3328,11 +3785,13 @@ Enrichment tags
    :alt: tags_screen1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/tags_screen2.png
    :alt: tags_screen2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Once configured, enrichment tags provides access to your assets information to help analyst identifying the entities in alert and facilitate further investigations:
 
@@ -3340,6 +3799,7 @@ Once configured, enrichment tags provides access to your assets information to h
    :alt: tags_screen3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Maintenance mode
 ================
@@ -3365,6 +3825,7 @@ Enabling or extending the maintenance mode
    :alt: maintenance_mode1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - Within the modal configuration window, enter the date and hours of the end of the maintenance time window:
 
@@ -3372,6 +3833,7 @@ Enabling or extending the maintenance mode
    :alt: maintenance_mode2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - When the date and hours of the maintenance time window are reached, the scheduled report "Verify Kafka alerting maintenance status" will automatically disable the maintenance mode.
 
@@ -3386,6 +3848,7 @@ During any time of the maintenance time window, an administrator can decide to d
    :alt: maintenance_mode3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Scheduling a maintenance window
 -------------------------------
@@ -3398,6 +3861,7 @@ You can configure the maintenance mode to be automatically enabled between a spe
    :alt: maintenance_mode4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - When a maintenance mode window has been scheduled, the UI shows a specific message with the starts / ends on dates:
 
@@ -3405,6 +3869,7 @@ You can configure the maintenance mode to be automatically enabled between a spe
    :alt: maintenance_mode5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Backup and restore
 ==================
@@ -3446,6 +3911,7 @@ Backup and Restore dashboard
    :alt: dashboard_backup_and_restore.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 This dashboard uses the backup archives Metadata stores in the KVstore collection **trackme_backup_archives_info** to show the list of backups that were taken over time per instance.
 
@@ -3490,6 +3956,7 @@ This command calls the :ref:`backup / Run backup KVstore collections` API endpoi
    :alt: backup_on_demand.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 List backup archives available
 ------------------------------
@@ -3506,6 +3973,7 @@ This command calls the :ref:`backup / Purge older backup archive files` API endp
    :alt: backup_list.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 All archive files available on the search head the command is executed are listed with their full path on the file system.
 
@@ -3524,6 +3992,7 @@ This command calls the :ref:`backup / Purge older backup archive files` API endp
    :alt: backup_purge.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Depending on either there are no eligible archives, the response above would appear, or the list of archives that were purged will be rendered.
 
@@ -3546,6 +4015,7 @@ Restoring relies on the :ref:`restore / Perform a restore of KVstore collections
    :alt: restore1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 dry_run mode
 ^^^^^^^^^^^^
@@ -3583,6 +4053,7 @@ Restoring everything
    :alt: restore1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **The following SPL command will restore all KVstore collections to a given state according to the content of that backup:**
 
@@ -3594,6 +4065,7 @@ Restoring everything
    :alt: restore3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **The following SPL command will restore a specific collection only:**
 
@@ -3605,5 +4077,6 @@ Restoring everything
    :alt: restore4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once the restore operation is finished, please reload the application, restarting the Splunk Search head(s) is not required.**

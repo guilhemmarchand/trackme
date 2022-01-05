@@ -14,6 +14,7 @@ The first question you need an answer when you look at deploying TrackMe the ver
 - TrackMe is deployed exclusively on a search head layer, there are no components running on forwarders (Universal Forwarders, Heavy Forwarders) or Splunk indexers
 - The search head layer targets depends on your preference, it can be standalone search head (SH) you are using to run monitoring tools, the monitoring console host (MC) or a Search Head Cluster (SHC)
 - The essential part of the content TrackMe is generated in dedicated indexes (summary events and metrics) and non-replicated KVstore collections which have near zero impacts on the search knowledge bundle size that is replicated automatically to your indexers
+- One aspect that can drive your decision is the type of users that will deal with TrackMe, if all of them are Splunk administrators then the Monitoring Console is certainly the best candidate. Otherwise, a Search Head Layer that is designed to accomodate with non administrator users might be more adapted.
 
 Configure indexes
 -----------------
@@ -90,9 +91,58 @@ Up to your choice, you can do this manually in the same time you deploy TrackMe 
    :alt: ui_update_indexes.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Step 2: Configure TrackMe to match your needs
 =============================================
+
+TrackMe components enablement
+-----------------------------
+
+**You can decide to enable or disable TrackMe components in the configuration user interface:**
+
+.. image:: img/components/components1.png
+   :alt: components1.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+.. image:: img/components/components2.png
+   :alt: components2.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+**When a component is disabled:**
+
+- It is not visible anymore in the main TrackMe UI
+- The associated tracker reports do not execute any longer the trackers, and will output a simple message mentioning that the component is disabled instead
+
+**For instance, if you wish to use only the Data sources tracking component:**
+
+.. image:: img/components/components3.png
+   :alt: components3.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+.. image:: img/components/components4.png
+   :alt: components4.png
+   :align: center
+   :width: 1200px
+   :class: with-border
+
+*The tracker executor logs would show:*
+
+::
+
+   index=_internal sourcetype=trackme:custom_commands:trackmetrackerexecutor "disabled"
+
+*example:*
+
+::
+
+   2022-01-05 11:36:37,043 INFO trackmetrackerexecutor.py generate 148 The metric hosts tracking component is currently disabled, nothing to do
 
 TrackMe strategy for data access - What TrackMe will be looking at
 ------------------------------------------------------------------
@@ -120,6 +170,7 @@ See :ref:`Allowlisting & Blocklisting` in the User guide.
    :alt: allowlist_and_blocklist.png
    :align: center
    :width: 800px
+   :class: with-border
 
 .. hint:: Each main TrackMe categories have their own definitions for allow and block listing: ``Data sources``, ``Data hosts`` and ``Metric hosts``
 
@@ -141,6 +192,7 @@ For the purposes of defining the best strategy that works for you, let's explain
    :alt: ui_data_sources_mode.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 See :ref:`Your first steps with TrackMe` for more details in the :ref:`User Guide` to start with tracking concepts
 
@@ -215,6 +267,7 @@ There are two modes available, called ``Data hosts global alerting policy``:
    :alt: data_hosts_allerting_policy_config.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 See :ref:`Alerting policy for data hosts` for more details in the :ref:`User Guide` to start with data hosts tracking
 
@@ -226,6 +279,7 @@ See :ref:`Alerting policy for data hosts` for more details in the :ref:`User Gui
    :alt: lagging_class_override_data_hosts_ex3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Alerting policy track per host:*
 
@@ -233,6 +287,7 @@ See :ref:`Alerting policy for data hosts` for more details in the :ref:`User Gui
    :alt: lagging_class_override_data_hosts_ex4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Choosing which mode complies with your requirements all depends on how deep and how granular you need to be monitoring data hosts, many users will be happy with the default mode and would use the granular mode for specific entities, others will need to ensure to track hosts in a very detailed way, your choice!
 
@@ -280,6 +335,7 @@ These roles define write or read only permissions on the various objects TrackMe
    :alt: trackme_roles.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. tip:: **capabilities for trackme_admin:**
 
@@ -295,6 +351,7 @@ This results in samples of real events being stored in a dedicated KVstore colle
 .. image:: img/mindmaps/data_sampling_main.png
    :alt: data_sampling_main.png
    :align: center
+   :class: with-border
 
 By default, the ``trackme_data_sampling`` is only available in read mode to users member of the ``trackme_user`` and ``trackme_admin`` roles, bellow is the default.meta stanzas:
 
@@ -312,6 +369,7 @@ If you are concerned about this activity, if for some reasons TrackMe users (and
    :alt: data_sampling_obfuscate.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 - In the default mode, that is ``Disable Data Sampling obfuscation mode``, events that are sampled are stored in the data sampling KVstore collection and can be used to review the results from the latest sampling operation
 - In the ``Enable Data Sampling obfuscation mode``, events are not stored anymore and replaced by an admin message, the sampling processing still happens the same way but events cannot be reviewed anymore using the latest sample traces
@@ -341,6 +399,7 @@ Step 4: Indexers macro definition
    :alt: trackme_idx_filter.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Make sure to update this definition accordingly to match your indexers and potentially Heavy Forwarders naming convention.
 
@@ -350,6 +409,7 @@ Make sure to update this definition accordingly to match your indexers and poten
    :alt: ops_parsing_issues.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Step 5: host tags enrichment
 ============================
@@ -366,6 +426,7 @@ Step 5: host tags enrichment
    :alt: macro_tags.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Splunk Enterprise Security assets usage:**
 
@@ -442,6 +503,7 @@ Using out of the box alerts
    :alt: ootb_alerts.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. hint:: Out of the box alerts
 
@@ -460,6 +522,7 @@ Creating custom alerts in assisted mode
    :alt: img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **This opens the assistant where you can choose between different builtin options depending on the type of entities to be monitoring:**
 
@@ -467,6 +530,7 @@ Creating custom alerts in assisted mode
    :alt: img002.png
    :align: center
    :width: 800px
+   :class: with-border
 
 Once you have created a new alert, it will be immediately visible in the tracking alerts UI, and you can use the Splunk built alert editor to modify the alert to up to your needs such as enabling third party actions, emails actions and so forth.
 

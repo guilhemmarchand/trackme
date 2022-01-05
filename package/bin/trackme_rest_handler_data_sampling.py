@@ -1,3 +1,15 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+__name__ = "trackme_rest_handler_data_sampling.py"
+__author__ = "TrackMe Limited"
+__copyright__ = "Copyright 2021, TrackMe Limited, U.K."
+__credits__ = ["Guilhem Marchand"]
+__license__ = "TrackMe Limited, all rights reserved"
+__version__ = "0.1.0"
+__maintainer__ = "TrackMe Limited, U.K."
+__email__ = "support@trackme-solutions.com"
+__status__ = "PRODUCTION"
+
 import logging
 import os, sys
 import splunk
@@ -5,9 +17,20 @@ import splunk.entity
 import splunk.Intersplunk
 import json
 
-logger = logging.getLogger(__name__)
-
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+logger = logging.getLogger(__name__)
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_api.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()
+for hdlr in log.handlers[:]:
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 import trackme_rest_handler
@@ -54,24 +77,41 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             collection_name = "kv_trackme_data_sampling"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Render
+            logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success")
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
             }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -125,15 +165,29 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+        
         try:
 
             collection_name = "kv_trackme_data_sampling"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Get the current record
@@ -149,6 +203,7 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -156,12 +211,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -222,16 +279,30 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             # Data collection
             collection_name = "kv_trackme_data_sampling"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Audit collection
@@ -286,10 +357,12 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.info("Record with _key " + str(key) + " was deleted from the collection.")
                 return {
                     "payload": "Record with _key " + str(key) + " was deleted from the collection.",
                     'status': 200 # HTTP status code
@@ -297,12 +370,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -363,16 +438,30 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             # Data collection
             collection_name = "kv_trackme_data_sampling"
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Audit collection
@@ -427,6 +516,7 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
@@ -452,6 +542,7 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                 except Exception as e:
                     data_sample_status_colour = "unknown"
 
+                logging.info("Data sampling state for: " + str(data_name) + " was cleared and sampling operation ran, data sampling state is: " + str(data_sample_status_colour))
                 return {
                     "payload": "Data sampling state for: " + str(data_name) + " was cleared and sampling operation ran, data sampling state is: " + str(data_sample_status_colour),
                     'status': 200 # HTTP status code
@@ -459,12 +550,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -506,24 +599,40 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             collection_name = "kv_trackme_data_sampling_custom_models"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Render
+            logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
             }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -580,15 +689,29 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             collection_name = "kv_trackme_data_sampling_custom_models"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Get the current record
@@ -604,6 +727,7 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -611,12 +735,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -692,16 +818,30 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             # Data collection
             collection_name = "kv_trackme_data_sampling_custom_models"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Audit collection
@@ -757,10 +897,12 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -800,10 +942,12 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -811,12 +955,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error("bad request")
                 return {
                     "payload": "bad request",
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -878,16 +1024,30 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             # Data collection
             collection_name = "kv_trackme_data_sampling_custom_models"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Audit collection
@@ -942,10 +1102,12 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.info("Record with _key " + str(key) + " was deleted from the collection.")
                 return {
                     "payload": "Record with _key " + str(key) + " was deleted from the collection.",
                     'status': 200 # HTTP status code
@@ -953,13 +1115,14 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
-

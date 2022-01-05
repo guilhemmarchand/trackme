@@ -5,13 +5,13 @@
     "id": {
       "group": null,
       "name": "trackme",
-      "version": "1.2.58"
+      "version": "2.0.0"
     },
     "author": [
       {
-        "name": "Guilhem Marchand",
-        "email": "guilhem.marchand@gmail.com",
-        "company": null
+        "name": "TrackMe Limited, U.K.",
+        "email": "contact@trackme-solutions.com",
+        "company": "TrackMe Limied, U.K."
       }
     ],
     "releaseDate": null,
@@ -25,9 +25,9 @@
     },
     "commonInformationModels": null,
     "license": {
-      "name": "Apache 2",
+      "name": "TrackMe EULA",
       "text": null,
-      "uri": "http://www.opensource.org/licenses/Apache-2.0"
+      "uri": "https://trackme.readthedocs.io/en/latest/license.html"
     },
     "privacyPolicy": {
       "name": null,

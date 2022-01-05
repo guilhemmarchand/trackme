@@ -1,9 +1,12 @@
 <nav search_view="search" color="#404040">
-  <view name="TrackMe" default="true" />
+  <view name="trackMe_home" default="true" />
   <view name="trackMe_summary" />
   <a href="trackMe_qos">TrackMe QOS</a>
-  <a href="TrackMe_manage">TrackMe manage and configure</a>
-  <a href="TrackMe_maintenance">Maintenance mode</a>
+  <collection label="Manage &amp; configure">
+    <a href="trackMe_manage_and_configure">TrackMe manage and configure</a>
+    <a href="configuration">Configure Splunk remote accounts, components &amp; logging</a>
+  </collection>
+  <a href="trackMe_maintenance_mode">Maintenance mode</a>
   <collection label="Search">
     <view name="search" />
     <view name="reports" />
@@ -30,6 +33,7 @@
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_data_name%20%7C%20eval%20keyid%3D_key">Blocklist data_name</a>        
       </collection>
       <collection label="Data sampling &amp; event format detection">
+        <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmesamplingexecutor">trackmesamplingexecutor command</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_sampling%20%7C%20eval%20keyid%3D_key">Data sampling and event format detection collection</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_sampling_custom_models%20%7C%20eval%20keyid%3D_key">Data sampling and event format detection custom models collection</a>
       </collection>
@@ -59,10 +63,19 @@
     <a href="search?q=%7C%20inputlookup%20trackme_logical_group%20%7C%20eval%20keyid%3D_key">Logical group clustering collection</a>
     <a href="search?q=%7C%20inputlookup%20trackme_summary_investigator_volume_outliers%20%7C%20eval%20keyid%3D_key">Summary Investigator for volume outliers behaviour analytic collection</a>
   </collection>
-  <collection label="Audit">
+  <collection label="Audit &amp; troubleshoot">
     <a href="trackMe_internal_scheduling">Audit scheduling</a>
-    <a href="trackMe_kvstore">KVstore collections</a>
-    <a href="trackMe_audit_data_sampling">Data sampling audit dashboard</a>
+    <a href="trackMe_kvstore">Audit KVstore collections</a>
+    <a href="trackMe_audit_data_sampling">Audit Data sampling</a>
+    <collection label="TrackMe logs">
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackme">trackme command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmetrackerexecutor">trackmetrackerexecutor command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Asplunkremotesearch">splunkremotesearch command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmepurgeaudit">trackmepurgeaudit command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmesamplingexecutor">trackmesamplingexecutor command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmeelasticexecutor">trackmeelasticexecutor command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Arest_api">TrackMe REST API</a>
+    </collection>
   </collection>
   <collection label="Help">
       <a href="https://trackme.readthedocs.io/">Documentation on readthedocs.org</a>

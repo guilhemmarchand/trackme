@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the Splunk TrackMe application documentation
-========================================================
+Welcome to TrackMe - Data tracking system for Splunk
+====================================================
 
 **TrackMe provides automated monitoring and visibility insight of your data sources, with a powerful user interface and workflow for Splunk product owners to detect and alert on lack of availability, abnormal latency, volume outliers detection and quality issues:**
 
@@ -19,30 +19,35 @@ Welcome to the Splunk TrackMe application documentation
 - No matters the purpose of your Splunk deployment, trackMe will become an essential piece of your deployment, providing key value for PCI or compliance requirements
 - Keep things under your control and be the first to know when data is not available, get alerted before your users get back to you!
 
-.. image:: img/screenshots_main/img001.png
+.. image:: img/screenshots_main/screenshot.png
    :alt: img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-.. image:: img/screenshots_main/img002.png
+.. image:: img/screenshots_main/screenshot1.png
    :alt: img002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-.. image:: img/screenshots_main/img003.png
+.. image:: img/screenshots_main/screenshot2.png
    :alt: img003.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-.. image:: img/screenshots_main/img004.png
+.. image:: img/screenshots_main/screenshot3.png
    :alt: img004.png
    :align: center
    :width: 1200px
+   :class: with-border
 
-.. image:: img/screenshots_main/img005.png
+.. image:: img/screenshots_main/screenshot4.png
    :alt: img005.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Why this application?**
 
@@ -78,6 +83,7 @@ Overview:
    :caption: Overview
 
    about
+   license
    compatibility
    support
    download

@@ -3,11 +3,91 @@
         "configuration": {
             "tabs": [
                 {
+                    "name": "account",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Auth Type",
+                                "field": "auth_type"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "type": "text",
+                            "label": "Name",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of ID should be between 1 and 50",
+                                    "minLength": 1,
+                                    "maxLength": 50
+                                },
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                }
+                            ],
+                            "options": {
+                                "placeholder": "Required"
+                            },
+                            "field": "name",
+                            "help": "Enter a unique name for this Splunk remote environment.",
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Splunk target URL and port",
+                            "help": "https://mysplunk.mydomain.com:8089 (SSL is enforced, the URL will be prefixed with https:// if not set), the URL can be based on IP or FQDN",
+                            "field": "splunk_url",
+                            "required": true,
+                            "options": {
+                                "display": true
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "label": "Bearer token",
+                            "help": "For client instances, set the bearer token used for remote access to the KVstore instance",
+                            "field": "bearer_token",
+                            "options": {
+                                "display": true
+                            },
+                            "defaultValue": "",
+                            "encrypted": true,
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Application namespace",
+                            "help": "The Splunk application namespace on the remote system where searches will be executed, defaults to the Splunk search app",
+                            "field": "app_namespace",
+                            "options": {
+                                "display": true
+                            },
+                            "defaultValue": "search",
+                            "required": true
+                        }
+                    ],
+                    "title": "Remote Splunk deployments accounts"
+                },
+                {
                     "name": "logging",
                     "entity": [
                         {
                             "type": "singleSelect",
                             "label": "Log level",
+                            "help": "The logging level applies to all custom commands and the TrackMe REST API, logs are indexed automatically within the _internal index",
                             "options": {
                                 "disableSearch": true,
                                 "autoCompleteFields": [
@@ -37,7 +117,76 @@
                             "field": "loglevel"
                         }
                     ],
-                    "title": "Logging"
+                    "title": "TrackMe Logging"
+                },
+                {
+                    "name": "components",
+                    "entity": [
+                        {
+                            "type": "singleSelect",
+                            "label": "Data Sources tracking",
+                            "help": "Enable/Disable the Data Sources tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_data_sources",
+                            "required": true
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Data Hosts tracking",
+                            "help": "Enable/Disable the Data Hosts tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_data_hosts",
+                            "required": true
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Metric Hosts tracking",
+                            "help": "Enable/Disable the Metric hosts tracking component, disabling the component removes its visibility and disabled its associated jobs",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "enabled",
+                                        "label": "Enabled"
+                                    },
+                                    {
+                                        "value": "disabled",
+                                        "label": "Disabled"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "enabled",
+                            "field": "component_metric_sources",
+                            "required": true
+                        }
+                    ],
+                    "title": "Components configuration"
                 }
             ],
             "title": "Configuration",
@@ -144,7 +293,7 @@
     "meta": {
         "name": "trackme",
         "restRoot": "trackme",
-        "version": "1.2.58",
+        "version": "2.0.0",
         "displayName": "TrackMe",
         "schemaVersion": "0.0.3"
     }
