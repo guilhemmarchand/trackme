@@ -141,7 +141,7 @@ class DataSamplingExecutor(GeneratingCommand):
                                 'data_sourcetype': subitem.get('data_sourcetype'), 'data_last_ingestion_lag_seen': subitem.get('data_last_ingestion_lag_seen')}
                             yield data
 
-                        logging.info("search successfully executed in " + str(time.process_time() - start) + " seconds")
+                        logging.info("search successfully executed, status=\"success\", run_time=\"" + str(time.process_time() - start) + "\"")
 
                     except Exception as e:
                         logging.error("search failed with exception: " + str(e))
@@ -150,7 +150,7 @@ class DataSamplingExecutor(GeneratingCommand):
                 logging.error("main search failed with exception: " + str(e))
 
             # end
-            logging.info("Elastic Sources shared job successfully executed in " + str(time.process_time() - mainstart) + " seconds for " + str(count) + " entities")
+            logging.info("Elastic Sources shared job successfully executed, status=\"success\", run_time=\"" + str(time.process_time() - mainstart) + "\", entities_count=\"" + str(count) + "\"")
 
         else:
 

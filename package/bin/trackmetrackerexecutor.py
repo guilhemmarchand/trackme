@@ -132,7 +132,7 @@ class DataSamplingExecutor(GeneratingCommand):
 
                     if component_data_sources == 'enabled':
                         runquery = True
-                        logging.info('Starting the data sources tracker report:\"' + str(self.report) + "\"")
+                        logging.info('Starting the data sources tracker report=\"' + str(self.report) + "\"")
                     else:
                         runquery = False
                         logging.info('The data sources tracking component is currently disabled, nothing to do')
@@ -143,7 +143,7 @@ class DataSamplingExecutor(GeneratingCommand):
 
                     if component_data_hosts == 'enabled':
                         runquery = True
-                        logging.info('Starting the data hosts tracker report:\"' + str(self.report) + "\"")
+                        logging.info('Starting the data hosts tracker report=\"' + str(self.report) + "\"")
                     else:
                         runquery = False
                         logging.info('The data hosts tracking component is currently disabled, nothing to do')
@@ -154,7 +154,7 @@ class DataSamplingExecutor(GeneratingCommand):
 
                     if component_metric_sources == 'enabled':
                         runquery = True
-                        logging.info('Starting the metric hosts tracker report:\"' + str(self.report) + "\"")
+                        logging.info('Starting the metric hosts tracker report=\"' + str(self.report) + "\"")
                     else:
                         runquery = False
                         logging.info('The metric hosts tracking component is currently disabled, nothing to do')
@@ -188,8 +188,8 @@ class DataSamplingExecutor(GeneratingCommand):
                     reader = results.ResultsReader(oneshotsearch_results)
 
                     for item in reader:
-                        logging.info("tracker report:\"" + str(self.report) + "\" successfully executed in " + str(time.process_time() - start) + " seconds, results: " + json.dumps(item, indent = 2))
-                        data = {'_time': time.time(), '_raw': "tracker report:\"" + str(self.report) +  "\" successfully executed in " + str(time.process_time() - start) + " seconds" }
+                        logging.info("tracker report=\"" + str(self.report) + "\", status=\"success\", run_time=\"" + str(time.process_time() - start) + "\", results: " + json.dumps(item, indent = 2))
+                        data = {'_time': time.time(), '_raw': "tracker report=\"" + str(self.report) +  "\" successfully executed in " + str(time.process_time() - start) + " seconds" }
                         yield data
 
                 except Exception as e:

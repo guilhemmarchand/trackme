@@ -138,7 +138,7 @@ class DataSamplingExecutor(GeneratingCommand):
                 logging.error("main search failed with exception: " + str(e))
 
             # end
-            logging.info("data sampling job successfully executed in " + str(time.process_time() - mainstart) + " seconds for " + str(count) + " entities")
+            logging.info("data sampling job successfully executed, status=\"success\", run_time=\"" + str(time.process_time() - mainstart) + "\" , entities_count=\"" + str(count) + "\"")
 
         else:
 
