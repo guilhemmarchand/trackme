@@ -61,6 +61,7 @@ TrackMe provides a Python based custom command ``trackme`` that acts as a REST A
 .. image:: img/img_rest_api_wrapper1.png
    :alt: img_rest_api_wrapper1.png
    :align: center
+   :class: with-border
 
 Syntax
 ''''''
@@ -88,6 +89,7 @@ Example
    :alt: img_rest_api_wrapper2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Every endpoint described in the present REST API reference documentation can be actioned via the trackme custom command, authentication and capabilities are transparently inherited from the user environment running the SPL query.
 
@@ -163,10 +165,12 @@ If you use Postman, you can consult the API documentation link above and easily 
 .. image:: img/postman_screen.png
    :alt: postman_screen.png
    :align: center
+   :class: with-border
 
 .. image:: img/postman_screen2.png
    :alt: postman_screen2.png
    :align: center
+   :class: with-border
 
 Acknowledgment endpoints
 ------------------------

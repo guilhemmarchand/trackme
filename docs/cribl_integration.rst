@@ -5,6 +5,7 @@ Cribl LogStream and TrackMe integration
    :alt: cribl_logo.png
    :align: center
    :width: 196px
+   :class: with-border
 
 **If you are using Cribl LogStream, you can easily integrate TrackMe in a just a few steps, using the excellent native Cribl LogStream design, TrackMe will take into account the concept of pipelines to create, monitor and render the data sources automatically.**
 
@@ -24,6 +25,7 @@ Enable the Cribl mode
    :alt: enable_cribl_mode.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Once the Cribl mode is enabled, perform a reset of the data source collection:**
 
@@ -31,6 +33,7 @@ Enable the Cribl mode
    :alt: cribl_reset_collection.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Cribl mode data sources
 -----------------------
@@ -48,6 +51,7 @@ Cribl mode data sources
    :alt: cribl_pipelines.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *In this example, the default TrackMe mode has different issues, we stream data to an index called "network", however we have different pipelines that are potentially linked to multiple sources and from the LogStream point of view could be affected independently in case of an issue or misconfiguration:*
 
@@ -55,6 +59,7 @@ Cribl mode data sources
    :alt: cribl_trackme1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 *Once we enable the Cribl mode, we see a very different picture, TrackMe automatically creates data sources broken by index, sourcetype and cribl_pipe:*
 
@@ -62,6 +67,7 @@ Cribl mode data sources
    :alt: cribl_trackme2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Data sources are created as ``index + ":" + sourcetype + ":" + cribl_pipe``, this represents the data flow from Cribl LogStream to Splunk.
 
@@ -71,16 +77,19 @@ Every search actioned by trackMe now automatically recycles the cribl_pipe infor
    :alt: cribl_trackme3.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/cribl/cribl_trackme4.png
    :alt: cribl_trackme4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/cribl/cribl_trackme5.png
    :alt: cribl_trackme5.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Cribl LogStream pre-processing pipelines and cribl_pipe field
 -------------------------------------------------------------
@@ -91,11 +100,13 @@ If you have a proprocessing pipelines in your LogStream workflow, the ``cribl_pi
    :alt: cribl_preprocessing_pipeline.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/cribl/cribl_preprocessing_pipeline1.png
    :alt: cribl_preprocessing_pipeline1.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 In the TrackMe context, this means that for the same data source, we get at least two entities, one per pipeline and one for the pre-processing pipeline:
 
@@ -103,6 +114,7 @@ In the TrackMe context, this means that for the same data source, we get at leas
    :alt: cribl_preprocessing_pipeline2.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 From the TrackMe point of view, the pre-processing pipeline view has no value and all that we care about is the data flow itself, to get rid of these entities automatically, we can add a data_name blocklist based in a very simple regular expression:
 
@@ -114,11 +126,13 @@ From the TrackMe point of view, the pre-processing pipeline view has no value an
    :alt: cribl_preprocessing_pipeline3.png
    :align: center
    :width: 700px
+   :class: with-border
 
 .. image:: img/cribl/cribl_preprocessing_pipeline4.png
    :alt: cribl_preprocessing_pipeline4.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 Congratulations!
 
@@ -139,3 +153,4 @@ When TrackMe is configured in the Cribl mode, only data coming from Cribl Logstr
    :alt: cribl_hybrid.png
    :align: center
    :width: 1200px
+   :class: with-border

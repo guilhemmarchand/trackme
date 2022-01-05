@@ -23,26 +23,31 @@ Welcome to TrackMe - Data tracking system for Splunk
    :alt: img001.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/screenshots_main/screenshot1.png
    :alt: img002.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/screenshots_main/screenshot2.png
    :alt: img003.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/screenshots_main/screenshot3.png
    :alt: img004.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 .. image:: img/screenshots_main/screenshot4.png
    :alt: img005.png
    :align: center
    :width: 1200px
+   :class: with-border
 
 **Why this application?**
 

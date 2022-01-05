@@ -4,7 +4,7 @@
   <a href="trackMe_qos">TrackMe QOS</a>
   <collection label="Manage &amp; configure">
     <a href="trackMe_manage_and_configure">TrackMe manage and configure</a>
-    <a href="configuration">Configure Splunk remote accounts</a>
+    <a href="configuration">Configure Splunk remote accounts, components &amp; logging</a>
   </collection>
   <a href="trackMe_maintenance_mode">Maintenance mode</a>
   <collection label="Search">
@@ -69,6 +69,7 @@
     <a href="trackMe_audit_data_sampling">Audit Data sampling</a>
     <collection label="TrackMe logs">
       <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackme">trackme command</a>
+      <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmetrackerexecutor">trackmetrackerexecutor command</a>
       <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Asplunkremotesearch">splunkremotesearch command</a>
       <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmepurgeaudit">trackmepurgeaudit command</a>
       <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmesamplingexecutor">trackmesamplingexecutor command</a>
