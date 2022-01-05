@@ -93,6 +93,9 @@ class DataSamplingExecutor(GeneratingCommand):
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
 
+            # build header and target
+            header = 'Splunk ' + str(session_key)
+
             # Get splunkd port
             entity = splunk.entity.getEntity('/server', 'settings',
                                                 namespace='trackme', sessionKey=session_key, owner='-')
@@ -144,6 +147,40 @@ class DataSamplingExecutor(GeneratingCommand):
                     if component_data_hosts == 'enabled':
                         runquery = True
                         logging.info('Starting the data hosts tracker report=\"' + str(self.report) + "\"")
+
+                        # For data hosts especially, we perform an auto diag and check the allow list
+                        # At scale, the default behaviour of searching in all data is poentially problematic
+                        target_url = "https://localhost:" + str(splunkd_port) + "/services/trackme/v1/allowlist/allowlist_dh"
+
+                        # Perform a get call
+                        try:
+                            response = requests.get(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False)
+                            response_json = response.text
+
+                            if response_json == '[]':
+                                logging.info("auto-diagnostic detected that allow list is not yet configured in the Data hosts tracking component, " +\
+                                    "this means all searcheable indexes will be considered which is bad practice and potentially compute expensive. " +\
+                                    " Performing an auto configuration restricting indexes to _internal now."
+                                )
+
+                                target_url = "https://localhost:" + str(splunkd_port) + "/services/trackme/v1/allowlist/allowlist_dh_add"
+                                json_data = {
+                                            'data_index': '_internal', 
+                                            'update_comment': 'auto-diagnostic detected a configuration change required for good ' +\
+                                                'practices and TrackMe health, adding the _internal index in allow list for data host tracking ' +\
+                                                'to avoid running highly expensive searches. Please add meaningful indexes at your convenience.'
+                                            }
+
+                                # Perform a post call
+                                try:
+                                    response = requests.post(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json.dumps(json_data, indent = 1))
+                                    logging.info('auto-diagnostic added the _internal index in data hosts tracking allow list')
+                                except Exception as e:
+                                    logging.error('auto-diagnostic failed to add the _internal index in allow list data hosts tracking component with exception:' + str(e))
+
+                        except Exception as e:
+                            logging.error("auto-diagnostic failed to retrieve the current allow list status for data hosts tracking component with exception: " + str(e))
+
                     else:
                         runquery = False
                         logging.info('The data hosts tracking component is currently disabled, nothing to do')
@@ -155,6 +192,40 @@ class DataSamplingExecutor(GeneratingCommand):
                     if component_metric_sources == 'enabled':
                         runquery = True
                         logging.info('Starting the metric hosts tracker report=\"' + str(self.report) + "\"")
+
+                        # For data hosts especially, we perform an auto diag and check the allow list
+                        # At scale, the default behaviour of searching in all data is poentially problematic
+                        target_url = "https://localhost:" + str(splunkd_port) + "/services/trackme/v1/allowlist/allowlist_mh"
+
+                        # Perform a get call
+                        try:
+                            response = requests.get(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False)
+                            response_json = response.text
+
+                            if response_json == '[]':
+                                logging.info("auto-diagnostic detected that allow list is not yet configured in the Metric hosts tracking component, " +\
+                                    "this means all searcheable indexes will be considered which is bad practice and potentially compute expensive. " +\
+                                    " Performing an auto configuration restricting indexes to _metrics now."
+                                )
+
+                                target_url = "https://localhost:" + str(splunkd_port) + "/services/trackme/v1/allowlist/allowlist_mh_add"
+                                json_data = {
+                                            'data_index': '_metrics', 
+                                            'update_comment': 'auto-diagnostic detected a configuration change required for good ' +\
+                                                'practices and TrackMe health, adding the _metrics index in allow list for metric hosts tracking component ' +\
+                                                'to avoid running highly expensive searches. Please add meaningfull indexes at your convenience.'
+                                            }
+
+                                # Perform a post call
+                                try:
+                                    response = requests.post(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json.dumps(json_data, indent = 1))
+                                    logging.info('auto-diagnostic added the _metrics index in metric hosts tracking allow list')
+                                except Exception as e:
+                                    logging.error('auto-diagnostic failed to add the _metrics index in allow list for metric hosts tracking component with exception:' + str(e))
+
+                        except Exception as e:
+                            logging.error("auto-diagnostic failed to retrieve the current allow list status for metric hosts tracking component with exception: " + str(e))
+
                     else:
                         runquery = False
                         logging.info('The metric hosts tracking component is currently disabled, nothing to do')
