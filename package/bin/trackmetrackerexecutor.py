@@ -126,7 +126,7 @@ class DataSamplingExecutor(GeneratingCommand):
             # runquery boolean
             runquery = False
 
-            if self.component in ('data_sources', 'data_hosts', 'metric_hosts'):
+            if self.component in ('data_sources', 'data_hosts', 'metric_hosts', "hybrid_trackers"):
 
                 if self.component == 'data_sources':
 
@@ -160,6 +160,9 @@ class DataSamplingExecutor(GeneratingCommand):
                         logging.info('The metric hosts tracking component is currently disabled, nothing to do')
                         data = {'_time': time.time(), '_raw': "{\"response\": \"" + "The metric hosts tracking component is currently disabled, nothing to do\"}"}
                         yield data
+
+                elif self.component == 'hybrid_trackers':
+                    runquery = True
 
             else:
                 logging.error("The component " + str(self.component) + " is not a valid TrackMe component.")

@@ -18,6 +18,7 @@ import splunk.Intersplunk
 import json
 import requests
 import time
+import uuid
 from urllib.parse import urlencode
 
 splunkhome = os.environ['SPLUNK_HOME']
@@ -80,9 +81,12 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
 
                 # tracker name, convert to lower case and remove spaces
                 tracker_name = resp_dict['tracker_name']
-                # Generate the tenant_id from tenant_name
                 if tracker_name:
                     tracker_name = tracker_name.lower().replace(" ", "_").replace("-", "_")
+                    # include a random UUID
+                    tracker_name = str(tracker_name) + "_" + str(uuid.uuid4())
+                    # report name len is 100 chars max
+                    tracker_name = tracker_name[:100]
 
                 # search_mode: accepted values are: tstats,raw
                 search_mode = resp_dict['search_mode']
@@ -319,10 +323,10 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 }
 
             #
-            # step 4: create the short term tracker
+            # step 4: create the short term wrapper
             #
 
-            report_name = "trackme_tracker_hybrid_" + str(tracker_name)
+            report_name = "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper"
             report_search = "| savedsearch \"" + "trackme_abstract_root_hybrid_" + str(tracker_name) + "\"\n" +\
                 "`comment(\"#### collects latest collection state into the summary index ####\")`\n" +\
                 "| `trackme_collect_state(\"current_state_tracking:data_source\", \"data_name\")`\n" +\
@@ -333,7 +337,58 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 "| `trackme_mcollect(data_name, data_source, \"metric_name:trackme.eventcount_4h=data_eventcount, " +\
                 "metric_name:trackme.hostcount_4h=dcount_host, metric_name:trackme.lag_event_sec=data_last_lag_seen, " +\
                 "metric_name:trackme.lag_ingestion_sec=data_last_ingestion_lag_seen\", \"object_category, object, OutlierTimePeriod, enable_behaviour_analytic\")`\n" +\
-                "| stats c"
+                "| stats count as entities_count"
+
+            # create a new report
+            try:
+                newtracker = service.saved_searches.create(str(report_name), str(report_search))
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            # update the properties
+            newtracker_update = service.saved_searches[str(report_name)]
+
+            # Complete the report definition
+            kwargs = {"description": "TrackMe hybrid short term wrapper",
+                    "is_scheduled": False,
+                    "dispatch.earliest_time": str(earliest),
+                    "dispatch.latest_time": str(latest)}
+
+            # Update the server and refresh the local copy of the object
+            try:
+                newtracker_update.update(**kwargs).refresh()
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            # Handler the owner (cannot be performed via splunklib)
+            kwargs = { "sharing": "app", "owner": str(owner) }
+
+            try:
+                service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            #
+            # step 5: create the short term tracker
+            #
+
+            report_name = "trackme_tracker_hybrid_" + str(tracker_name) + "_tracker"
+            report_search = "| trackmetrackerexecutor component=\"hybrid_trackers\" report=\"" + "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper" + "\" earliest=\"" + str(earliest) + "\" latest=\"" + str(latest) + "\""
 
             # create a new report
             try:
@@ -391,7 +446,8 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         audit_record = json.dumps({
                 "aggreg_intermediate_macro": "trackme_intermediate_aggreg" + "_hybrid_" + str(tracker_name),
                 "abstract_report": "trackme_abstract_root_hybrid_" + str(tracker_name),
-                "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name),
+                "wrapper_report": "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper",
+                "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name) + "_tracker",
                 "root_constraint": str(root_constraint),
                 "tracker_name": str(tracker_name),
                 "break_by_field": str(break_by_field),
@@ -469,9 +525,12 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
 
                 # tracker name, convert to lower case and remove spaces
                 tracker_name = resp_dict['tracker_name']
-                # Generate the tenant_id from tenant_name
                 if tracker_name:
                     tracker_name = tracker_name.lower().replace(" ", "_").replace("-", "_")
+                    # include a random UUID
+                    tracker_name = str(tracker_name) + "_" + str(uuid.uuid4())
+                    # report name len is 100 chars max
+                    tracker_name = tracker_name[:100]
 
                 # remote account
                 account = resp_dict['account']
@@ -744,10 +803,10 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 }
 
             #
-            # step 4: create the short term tracker
+            # step 4: create the short term wrapper
             #
 
-            report_name = "trackme_tracker_hybrid_" + str(tracker_name)
+            report_name = "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper"
             report_search = "| savedsearch \"" + "trackme_abstract_root_hybrid_" + str(tracker_name) + "\"\n" +\
                 "`comment(\"#### collects latest collection state into the summary index ####\")`\n" +\
                 "| `trackme_collect_state(\"current_state_tracking:data_source\", \"data_name\")`\n" +\
@@ -758,7 +817,58 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 "| `trackme_mcollect(data_name, data_source, \"metric_name:trackme.eventcount_4h=data_eventcount, " +\
                 "metric_name:trackme.hostcount_4h=dcount_host, metric_name:trackme.lag_event_sec=data_last_lag_seen, " +\
                 "metric_name:trackme.lag_ingestion_sec=data_last_ingestion_lag_seen\", \"object_category, object, OutlierTimePeriod, enable_behaviour_analytic\")`\n" +\
-                "| stats c"
+                "| stats count as entities_count"
+
+            # create a new report
+            try:
+                newtracker = service.saved_searches.create(str(report_name), str(report_search))
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            # update the properties
+            newtracker_update = service.saved_searches[str(report_name)]
+
+            # Complete the report definition
+            kwargs = {"description": "TrackMe hybrid wrapper",
+                    "dispatch.earliest_time": str(earliest),
+                    "dispatch.latest_time": str(latest),
+                    "is_scheduled": False}
+
+            # Update the server and refresh the local copy of the object
+            try:
+                newtracker_update.update(**kwargs).refresh()
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            # Handler the owner (cannot be performed via splunklib)
+            kwargs = { "sharing": "app", "owner": str(owner) }
+
+            try:
+                service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
+
+            except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            #
+            # step 5: create the short term tracker
+            #
+
+            report_name = "trackme_tracker_hybrid_" + str(tracker_name) + "_tracker"
+            report_search = "| trackmetrackerexecutor component=\"hybrid_trackers\" report=\"" + "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper" + "\" earliest=\"" + str(earliest) + "\" latest=\"" + str(latest) + "\""
 
             # create a new report
             try:
@@ -817,7 +927,8 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 "account": str(account),
                 "aggreg_intermediate_macro": "trackme_intermediate_aggreg" + "_hybrid_" + str(tracker_name),
                 "abstract_report": "trackme_abstract_root_hybrid_" + str(tracker_name),
-                "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name),
+                "wrapper_report": "trackme_tracker_hybrid_" + str(tracker_name) + "_wrapper",
+                "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name) + "_tracker",
                 "root_constraint": str(root_constraint),
                 "tracker_name": str(tracker_name),
                 "break_by_field": str(break_by_field),
