@@ -11,6 +11,7 @@ Version 1.2.59
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
 - Fix Issue #391 - HA group alert mapping is not working as expected #391
+- Fix Issue #392 - Data hosts long term tracker should collect after filtering on hosts out of the scope of the short term, and this scope should include data_last_ingest
 
 Version 1.2.58
 ==============
