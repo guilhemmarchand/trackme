@@ -25290,6 +25290,9 @@ require([
                 // add the priority filter
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
+                // handle HA groups
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_group_lookup`";
+
                 // add the state filter
                 tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | where (state=\"red\" OR state=\"orange\") | search " +  tk_input_custom_alert_state;
 
@@ -25310,7 +25313,6 @@ require([
                 // handle time filtering
                 tk_custom_alert = tk_custom_alert + "\n| `" + tk_input_custom_alert_time_filtering + "`";
 
-                tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_group_lookup`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_ingest)`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_time_seen)`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_tracker_runtime)`";
