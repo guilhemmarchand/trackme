@@ -12,6 +12,7 @@ Version 1.2.59
 
 - Fix Issue #391 - HA group alert mapping is not working as expected #391
 - Fix Issue #392 - Data hosts long term tracker should collect after filtering on hosts out of the scope of the short term, and this scope should include data_last_ingest
+- Fix Issue #389 - Using double-backslash for regular expression in blocklist fails trackme
 
 Version 1.2.58
 ==============

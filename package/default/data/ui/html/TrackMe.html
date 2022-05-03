@@ -28448,7 +28448,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_host = tokens.get("tk_input_data_source_blacklist_host");
+            var tk_input_blacklist_host = tokens.get("tk_input_data_source_blacklist_host").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
@@ -28689,7 +28689,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_host = tokens.get("tk_input_data_host_blacklist_host");
+            var tk_input_blacklist_host = tokens.get("tk_input_data_host_blacklist_host").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
@@ -28811,7 +28811,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_index = tokens.get("tk_input_blacklist_index");
+            var tk_input_blacklist_index = tokens.get("tk_input_blacklist_index").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
@@ -29175,7 +29175,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_index = tokens.get("tk_input_data_host_blacklist_index");
+            var tk_input_blacklist_index = tokens.get("tk_input_data_host_blacklist_index").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
@@ -29417,7 +29417,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_index = tokens.get("tk_input_metric_host_blacklist_index");
+            var tk_input_blacklist_index = tokens.get("tk_input_metric_host_blacklist_index").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
@@ -29659,7 +29659,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_source_blacklist_sourcetype");
+            var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_source_blacklist_sourcetype").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
@@ -29901,11 +29901,10 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_data_name = tokens.get("tk_input_data_source_blacklist_data_name");
+            var tk_input_blacklist_data_name = tokens.get("tk_input_data_source_blacklist_data_name").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name";
-
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_blacklist_data_name | append [ | makeresults | eval data_name=\"" + tk_input_blacklist_data_name + "\", data_blacklist_state=\"true\" ] | dedup data_name | sort limit=0 data_name | outputlookup trackme_data_source_monitoring_blacklist_data_name";
@@ -30143,7 +30142,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_host_blacklist_sourcetype");
+            var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_host_blacklist_sourcetype").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
@@ -30386,7 +30385,7 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_blacklist_host = tokens.get("tk_input_metric_host_blacklist_host");
+            var tk_input_blacklist_host = tokens.get("tk_input_metric_host_blacklist_host").replace(/\\/g, "\\\\");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
