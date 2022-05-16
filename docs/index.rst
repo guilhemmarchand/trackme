@@ -6,6 +6,14 @@
 Welcome to the Splunk TrackMe application documentation
 ========================================================
 
+.. important:: **!Major changes and announcements!**
+
+   - Major changes to TrackMe are coming, very soon!
+   - TrackMe v2, the next generation of the solution, is expected to be GA within a couple of months
+   - This totally new version keeps all that made the success of TrackMe, and adds powerful key features and a brand new user experience
+   - TrackMe v2 addresses as well the deprecation of HTML dashboard which affects the current version of TrackMe
+   - Keep on track, this is coming
+
 **TrackMe provides automated monitoring and visibility insight of your data sources, with a powerful user interface and workflow for Splunk product owners to detect and alert on lack of availability, abnormal latency, volume outliers detection and quality issues:**
 
 - Discover and store key states information of data sources, data hosts and metric hosts availability
