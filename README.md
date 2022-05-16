@@ -1,8 +1,16 @@
 # TrackMe - An application for Splunk administrators to monitor and track data sources and hosts availability the easy way
 
-| branch | build status |
-| ---    | ---          |
-| master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master)
+| branch | build status                                                                                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master) |
+
+## Major changes and announcements
+
+- Major changes to TrackMe are coming, very soon!
+- TrackMe v2, the next generation of the solution, is expected to be GA within a couple of months
+- This totally new version keeps all that made the success of TrackMe, and adds powerful key features and a brand new user experience
+- TrackMe v2 addresses as well the deprecation of HTML dashboard which affects the current version of TrackMe
+- Keep on track, this is coming
 
 ## Download
 
