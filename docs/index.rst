@@ -6,23 +6,12 @@
 Welcome to the Splunk TrackMe application documentation
 ========================================================
 
-.. important:: **!Major changes and announcements!**
+.. important:: **!TrackMe V2 is live!**
 
-   - Major changes to TrackMe are coming, very soon!
-   - TrackMe v2, the next generation of the solution, is expected to be GA before the end of the year 2022
-   - This totally new version keeps all that made the success of TrackMe, and adds powerful key features and a brand new user experience
-   - TrackMe v2 addresses as well the deprecation of HTML dashboard which affects the current version of TrackMe
-   - Keep on track, this is coming
-
-.. important:: Splunk Cloud compatibility has stopped
-
-   - Since September 2022, TrackMe V1 is not compatible anymore for new deployments in Splunk Cloud.
-
-   - For the time being, existing deployments can allow the execution of the deprecated HTML based dashboards: https://docs.splunk.com/Documentation/SplunkCloud/9.0.2208/ReleaseNotes/NewSplunkCloudFeatures
-
-   - jQuery v3.5 is shipped as default with Splunk Cloud Platform, Splunk Cloud Platform now ships with jQuery 3.5 by default. Older jQuery versions are still supported and can be accessed via the jQuery toggle in the internal library settings by Splunk Admins. Splunk will be removing support for all older versions of jQuery in the near future.
-
-   - Once you did, TrackMe will be functional again
+   - TrackMe has moved, see: https://trackme-solutions.com
+   - Documentation for TrackMe V2 is now hosted at: https://docs.trackme-solutions.com
+   - To Download TrackMe V2, see: https://trackme-solutions.com/downloads
+   - **TrackMe V1 is now considered legacy**, the GitHub repository is archived, and support is focused on TrackMe V2
 
 **TrackMe provides automated monitoring and visibility insight of your data sources, with a powerful user interface and workflow for Splunk product owners to detect and alert on lack of availability, abnormal latency, volume outliers detection and quality issues:**
 
