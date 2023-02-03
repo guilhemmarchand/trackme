@@ -1,4 +1,4 @@
-# TrackMe - An application for Splunk administrators to monitor and track data sources and hosts availability the easy way
+# TrackMe V1 Legacy
 
  - TrackMe has moved, see: https://trackme-solutions.com
  - Documentation for TrackMe V2 is now hosted at: https://docs.trackme-solutions.com
